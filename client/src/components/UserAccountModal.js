@@ -13,8 +13,7 @@ import {
   Shield, 
   Settings, 
   LogOut,
-  CheckCircle,
-  AlertCircle
+  CheckCircle
 } from 'lucide-react';
 
 const UserAccountModal = ({ isOpen, onClose, user, onLogout, onUpdateProfile }) => {

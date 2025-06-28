@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Mail, Lock, User, Eye, EyeOff, Github, Twitter, CheckCircle, AlertCircle } from 'lucide-react';
+import { X, Mail, Lock, User, Eye, EyeOff, Github, AlertCircle } from 'lucide-react';
 
 const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
   const [isLogin, setIsLogin] = useState(true);

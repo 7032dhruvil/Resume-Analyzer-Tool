@@ -8,7 +8,7 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import AuthModal from './components/AuthModal';
 import UserAccountModal from './components/UserAccountModal';
-import { Brain, Zap, Shield, Users, TrendingUp, Star, CheckCircle } from 'lucide-react';
+import { Brain, Zap, Shield, Users } from 'lucide-react';
 
 function App() {
   const [analysisResult, setAnalysisResult] = useState(null);
@@ -94,7 +94,7 @@ function App() {
   ];
 
   return (
-    <div className="min-h-screen bg-secondary-50 dark:bg-secondary-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Header 
         user={user} 
         onLoginClick={() => setIsAuthModalOpen(true)}
@@ -102,19 +102,20 @@ function App() {
         onLogout={handleLogout}
       />
       
-      <main>
+      <main className="w-full">
         {/* Hero Section */}
-        <section className="py-20 bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white">
-          <div className="container mx-auto px-4 text-center">
+        <section className="section gradient-bg-dark text-white">
+          <div className="container">
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
+              className="text-center"
             >
               <h1 className="text-5xl md:text-7xl font-bold mb-6">
                 AI-Powered Resume Analysis
               </h1>
-              <p className="text-xl md:text-2xl text-primary-100 mb-8 max-w-3xl mx-auto leading-relaxed">
+              <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
                 Get instant, professional feedback on your resume with our advanced AI technology. 
                 Stand out in today's competitive job market.
               </p>
@@ -122,7 +123,7 @@ function App() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => document.getElementById('upload-section').scrollIntoView({ behavior: 'smooth' })}
-                className="btn-primary text-lg px-8 py-4 bg-white text-primary-600 hover:bg-primary-50"
+                className="btn-primary text-lg px-8 py-4 bg-white text-blue-600 hover:bg-blue-50"
               >
                 Start Analyzing Now
               </motion.button>
@@ -131,18 +132,18 @@ function App() {
         </section>
 
         {/* Features Section */}
-        <section id="features" className="py-20 bg-white dark:bg-secondary-800">
-          <div className="container mx-auto px-4">
+        <section id="features" className="section section-white">
+          <div className="container">
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               className="text-center mb-16"
             >
-              <h2 className="text-4xl md:text-5xl font-bold text-secondary-900 dark:text-white mb-6">
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
                 Why Choose Our AI Analyzer?
               </h2>
-              <p className="text-xl text-secondary-600 dark:text-secondary-300 max-w-3xl mx-auto">
+              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
                 Experience the future of resume optimization with cutting-edge AI technology
               </p>
             </motion.div>
@@ -155,17 +156,17 @@ function App() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   whileHover={{ y: -5 }}
-                  className="card text-center group"
+                  className="card card-hover text-center group"
                 >
-                  <div className="w-16 h-16 bg-primary-100 dark:bg-primary-900 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary-200 dark:group-hover:bg-primary-800 transition-colors duration-200">
-                    <div className="text-primary-600 dark:text-primary-400">
+                  <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-200 dark:group-hover:bg-blue-800 transition-colors duration-200">
+                    <div className="text-blue-600 dark:text-blue-400">
                       {feature.icon}
                     </div>
                   </div>
-                  <h3 className="text-xl font-semibold text-secondary-900 dark:text-white mb-3">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
                     {feature.title}
                   </h3>
-                  <p className="text-secondary-600 dark:text-secondary-300">
+                  <p className="text-gray-600 dark:text-gray-300">
                     {feature.description}
                   </p>
                 </motion.div>
@@ -175,18 +176,18 @@ function App() {
         </section>
 
         {/* Upload Section */}
-        <section id="upload-section" className="py-20 bg-gradient-to-br from-secondary-50 to-primary-50 dark:from-secondary-900 dark:to-secondary-800">
-          <div className="container mx-auto px-4">
+        <section id="upload-section" className="section section-gradient">
+          <div className="container">
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               className="text-center mb-16"
             >
-              <h2 className="text-4xl md:text-5xl font-bold text-secondary-900 dark:text-white mb-6">
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
                 Analyze Your Resume
               </h2>
-              <p className="text-xl text-secondary-600 dark:text-secondary-300 max-w-3xl mx-auto">
+              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
                 Upload your resume and get instant AI-powered feedback and optimization suggestions
               </p>
             </motion.div>
@@ -216,18 +217,18 @@ function App() {
         </section>
 
         {/* Testimonials Section */}
-        <section className="py-20 bg-white dark:bg-secondary-800">
-          <div className="container mx-auto px-4">
+        <section className="section section-white">
+          <div className="container">
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               className="text-center mb-16"
             >
-              <h2 className="text-4xl md:text-5xl font-bold text-secondary-900 dark:text-white mb-6">
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
                 What Our Users Say
               </h2>
-              <p className="text-xl text-secondary-600 dark:text-secondary-300 max-w-3xl mx-auto">
+              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
                 Join thousands of satisfied users who have transformed their careers
               </p>
             </motion.div>
@@ -240,7 +241,7 @@ function App() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   whileHover={{ y: -5 }}
-                  className="card"
+                  className="card card-hover"
                 >
                   <div className="flex items-center mb-4">
                     <img
@@ -249,20 +250,22 @@ function App() {
                       className="w-12 h-12 rounded-full mr-4"
                     />
                     <div>
-                      <h4 className="font-semibold text-secondary-900 dark:text-white">
+                      <h4 className="font-semibold text-gray-900 dark:text-white">
                         {testimonial.name}
                       </h4>
-                      <p className="text-sm text-secondary-600 dark:text-secondary-400">
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
                         {testimonial.role} at {testimonial.company}
                       </p>
                     </div>
                   </div>
                   <div className="flex items-center mb-3">
                     {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 text-warning-400 fill-current" />
+                      <svg key={i} className="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
                     ))}
                   </div>
-                  <p className="text-secondary-600 dark:text-secondary-300 italic">
+                  <p className="text-gray-600 dark:text-gray-300 italic">
                     "{testimonial.content}"
                   </p>
                 </motion.div>
@@ -272,8 +275,8 @@ function App() {
         </section>
 
         {/* Stats Section */}
-        <section className="py-20 bg-gradient-to-r from-primary-600 to-primary-700 text-white">
-          <div className="container mx-auto px-4">
+        <section className="section gradient-bg-primary text-white">
+          <div className="container">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -281,7 +284,7 @@ function App() {
                 transition={{ duration: 0.5 }}
               >
                 <div className="text-4xl font-bold mb-2">50K+</div>
-                <div className="text-primary-100">Resumes Analyzed</div>
+                <div className="text-blue-100">Resumes Analyzed</div>
               </motion.div>
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -289,7 +292,7 @@ function App() {
                 transition={{ duration: 0.5, delay: 0.1 }}
               >
                 <div className="text-4xl font-bold mb-2">95%</div>
-                <div className="text-primary-100">Accuracy Rate</div>
+                <div className="text-blue-100">Accuracy Rate</div>
               </motion.div>
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -297,7 +300,7 @@ function App() {
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
                 <div className="text-4xl font-bold mb-2">10K+</div>
-                <div className="text-primary-100">Happy Users</div>
+                <div className="text-blue-100">Happy Users</div>
               </motion.div>
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -305,7 +308,7 @@ function App() {
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
                 <div className="text-4xl font-bold mb-2">24/7</div>
-                <div className="text-primary-100">Available</div>
+                <div className="text-blue-100">Available</div>
               </motion.div>
             </div>
           </div>
