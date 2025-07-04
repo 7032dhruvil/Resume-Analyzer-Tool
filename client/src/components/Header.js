@@ -120,28 +120,6 @@ const Header = ({ user, onLoginClick, onProfileClick, onLogout }) => {
                 <span>Login</span>
               </motion.button>
             )}
-
-            {/* Social Links */}
-            <motion.a
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              href="https://github.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-secondary-400 hover:text-secondary-600 dark:hover:text-secondary-300 transition-colors duration-200"
-            >
-              <Github className="w-5 h-5" />
-            </motion.a>
-            <motion.a
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              href="https://twitter.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-secondary-400 hover:text-secondary-600 dark:hover:text-secondary-300 transition-colors duration-200"
-            >
-              <Twitter className="w-5 h-5" />
-            </motion.a>
           </div>
 
           {/* Mobile Menu Button */}

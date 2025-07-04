@@ -16,9 +16,6 @@ const getApiBaseUrl = () => {
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || getApiBaseUrl();
 
-console.log('API Base URL:', API_BASE_URL);
-console.log('Current hostname:', window.location.hostname);
-
 // Export the API base URL for use in other components
 export { API_BASE_URL };
 
@@ -84,12 +81,9 @@ api.interceptors.response.use(
 // API functions
 export const analyzeResume = async (file) => {
   try {
-    console.log('API: Starting resume analysis for file:', file.name, file.type, file.size);
     const formData = new FormData();
     formData.append('resume', file);
 
-    console.log('API: Sending request to:', API_BASE_URL + '/analyze-resume');
-    
     // Try the primary URL first
     try {
       const response = await api.post('/analyze-resume', formData, {
@@ -97,11 +91,8 @@ export const analyzeResume = async (file) => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log('API: Response received:', response.data);
       return response.data;
     } catch (primaryError) {
-      console.log('Primary API call failed, trying fallback URLs...');
-      
       // Fallback URLs to try
       const fallbackUrls = [
         'http://192.168.1.14:5002/api',
@@ -111,7 +102,6 @@ export const analyzeResume = async (file) => {
       
       for (const fallbackUrl of fallbackUrls) {
         try {
-          console.log('Trying fallback URL:', fallbackUrl);
           const fallbackApi = axios.create({
             baseURL: fallbackUrl,
             timeout: 30000,
@@ -122,10 +112,8 @@ export const analyzeResume = async (file) => {
               'Content-Type': 'multipart/form-data',
             },
           });
-          console.log('API: Response received from fallback:', response.data);
           return response.data;
         } catch (fallbackError) {
-          console.log('Fallback URL failed:', fallbackUrl, fallbackError.message);
           continue;
         }
       }
@@ -134,7 +122,6 @@ export const analyzeResume = async (file) => {
       throw primaryError;
     }
   } catch (error) {
-    console.error('API: Error in analyzeResume:', error);
     throw error;
   }
 };
@@ -150,16 +137,11 @@ export const checkHealth = async () => {
 
 export const testConnection = async () => {
   try {
-    console.log('Testing API connection...');
-    
     // Try the primary URL first
     try {
       const response = await api.get('/test');
-      console.log('Test response:', response.data);
       return response.data;
     } catch (primaryError) {
-      console.log('Primary test failed, trying fallback URLs...');
-      
       // Fallback URLs to try
       const fallbackUrls = [
         'http://192.168.1.14:5002/api',
@@ -169,17 +151,14 @@ export const testConnection = async () => {
       
       for (const fallbackUrl of fallbackUrls) {
         try {
-          console.log('Trying fallback URL:', fallbackUrl);
           const fallbackApi = axios.create({
             baseURL: fallbackUrl,
             timeout: 10000,
           });
           
           const response = await fallbackApi.get('/test');
-          console.log('Test response from fallback:', response.data);
           return response.data;
         } catch (fallbackError) {
-          console.log('Fallback URL failed:', fallbackUrl, fallbackError.message);
           continue;
         }
       }
@@ -188,7 +167,6 @@ export const testConnection = async () => {
       throw primaryError;
     }
   } catch (error) {
-    console.error('Test connection failed:', error);
     throw error;
   }
 };

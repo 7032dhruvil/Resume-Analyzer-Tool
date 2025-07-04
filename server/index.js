@@ -41,7 +41,6 @@ app.use(limiter);
 
 // Request logging middleware
 app.use((req, res, next) => {
-  console.log(`${new Date().toISOString()} - ${req.method} ${req.path} - IP: ${req.ip}`);
   next();
 });
 
@@ -342,34 +341,20 @@ app.get('/api/test', (req, res) => {
 });
 
 app.post('/api/analyze-resume', upload.single('resume'), async (req, res) => {
-  console.log('Analyze resume request received');
-  console.log('Request headers:', req.headers);
-  console.log('Request file:', req.file ? {
-    originalname: req.file.originalname,
-    mimetype: req.file.mimetype,
-    size: req.file.size
-  } : 'No file');
-  
   try {
     if (!req.file) {
-      console.log('No file uploaded');
       return res.status(400).json({ error: 'No file uploaded' });
     }
 
-    console.log('Parsing file:', req.file.originalname);
     // Parse file based on its type
     const fileText = await parseFile(req.file);
-    console.log('File parsed successfully, text length:', fileText.length);
 
     if (!fileText || fileText.trim().length === 0) {
-      console.log('No text extracted from file');
       return res.status(400).json({ error: 'Could not extract text from file. Please ensure the file contains readable text.' });
     }
 
-    console.log('Starting AI analysis...');
     // Analyze resume using mock AI
     const analysis = analyzeResumeWithMockAI(fileText);
-    console.log('Analysis completed successfully');
 
     const response = {
       success: true,
@@ -379,11 +364,9 @@ app.post('/api/analyze-resume', upload.single('resume'), async (req, res) => {
       fileType: req.file.mimetype
     };
     
-    console.log('Sending response');
     res.json(response);
 
   } catch (error) {
-    console.error('Error analyzing resume:', error);
     res.status(500).json({ 
       error: 'Failed to analyze resume',
       details: error.message 
@@ -393,7 +376,6 @@ app.post('/api/analyze-resume', upload.single('resume'), async (req, res) => {
 
 // Error handling middleware
 app.use((error, req, res, next) => {
-  console.error('Server Error:', error);
   res.status(500).json({ 
     error: 'Internal server error',
     message: error.message 
@@ -401,9 +383,5 @@ app.use((error, req, res, next) => {
 });
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Resume Analyzer Server running on port ${PORT}`);
-  console.log(`📊 Health check: http://localhost:${PORT}/api/health`);
-  console.log(`🤖 Using Mock AI for analysis (No API key required!)`);
-  console.log(`📄 Supported formats: PDF, DOC, DOCX, TXT`);
-  console.log(`🌐 Server accessible from: http://0.0.0.0:${PORT}`);
+  // Server started successfully
 }); 

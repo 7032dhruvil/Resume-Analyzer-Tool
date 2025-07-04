@@ -74,25 +74,25 @@ const Contact = () => {
     {
       icon: <Mail className="w-5 h-5" />,
       title: "Email Us",
-      details: ["hello@resumeanalyzer.com", "support@resumeanalyzer.com"],
+      details: ["xyzdeveloper10@gmail.com", "info@samplemail.com"],
       color: "text-primary-600 dark:text-primary-400"
     },
     {
       icon: <Phone className="w-5 h-5" />,
       title: "Call Us",
-      details: ["+1 (555) 123-4567", "+1 (555) 987-6543"],
+      details: ["+91 8690295298", "+91 9876543210"],
       color: "text-success-600 dark:text-success-400"
     },
     {
       icon: <MapPin className="w-5 h-5" />,
       title: "Visit Us",
-      details: ["123 Innovation Drive", "San Francisco, CA 94105"],
+      details: ["Ahmedabad, Gujarat, India", "380015"],
       color: "text-warning-600 dark:text-warning-400"
     },
     {
       icon: <Clock className="w-5 h-5" />,
       title: "Business Hours",
-      details: ["Mon-Fri: 9AM-6PM PST", "Sat-Sun: 10AM-4PM PST"],
+      details: ["Mon-Fri: 10AM-7PM IST", "Sat: 10AM-2PM IST"],
       color: "text-error-600 dark:text-error-400"
     }
   ];
@@ -248,7 +248,7 @@ const Contact = () => {
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="card p-6 flex flex-col justify-between"
+            className="card p-6 flex flex-col justify-evenly"
           >
             <h3 className="text-xl font-bold text-secondary-900 dark:text-white mb-4">
               Contact Information
@@ -297,15 +297,19 @@ const Contact = () => {
             Visit Our Office
           </h3>
           <p className="text-secondary-600 dark:text-secondary-300 mb-6">
-            We're located in the heart of San Francisco's tech district
+            We're located in Ahmedabad, Gujarat, India
           </p>
-          <div className="bg-secondary-200 dark:bg-secondary-700 rounded-lg h-48 flex items-center justify-center">
-            <div className="text-center">
-              <MapPin className="w-12 h-12 text-secondary-400 dark:text-secondary-500 mx-auto mb-4" />
-              <p className="text-secondary-600 dark:text-secondary-400">
-                Interactive Map Coming Soon
-              </p>
-            </div>
+          <div className="bg-secondary-200 dark:bg-secondary-700 rounded-lg overflow-hidden flex items-center justify-center" style={{ height: '300px' }}>
+            <iframe
+              title="Ahmedabad, Gujarat, India Map"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3672.012441234262!2d72.5713623153636!3d23.0225059849437!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e84f2f5e4b1e7%3A0x5e4b1e7e4b1e7e4b!2sAhmedabad%2C%20Gujarat%2C%20India!5e0!3m2!1sen!2sin!4v1680000000000!5m2!1sen!2sin"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
           </div>
         </motion.div>
       </div>

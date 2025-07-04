@@ -1,4 +1,4 @@
-# Node modules
+# Dependency directories
 node_modules/
 client/node_modules/
 server/node_modules/
@@ -6,20 +6,20 @@ server/node_modules/
 # Build output
 client/build/
 server/dist/
+dist/
+build/
 
 # Logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# OS files
-.DS_Store
-Thumbs.db
+logs
 
 # Environment files
-server/.env
 .env
+.env.*
+server/.env
 
 # IDE files
 .vscode/
@@ -28,50 +28,31 @@ server/.env
 *.ntvs*
 *.njsproj
 *.sln
-
-# Misc
-coverage/
-dist/
-*.local
-
-# Environment variables
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# IDE files
-.vscode/
-.idea/
 *.swp
 *.swo
 
 # OS generated files
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
+.DS_Store
 Thumbs.db
 
-# Logs
-logs
-*.log
-
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
-
-# Coverage directory used by tools like istanbul
+# Misc
 coverage/
+.nyc_output/
+.cache/
+.parcel-cache/
+.next/
+.nuxt/
+.vuepress/dist/
+.serverless/
+.fusebox/
+.dynamodb/
+.tern-port
 
-# nyc test coverage
-.nyc_output
+# Yarn Integrity file
+.yarn-integrity
 
-# Dependency directories
-jspm_packages/
+# Output of 'npm pack'
+*.tgz
 
 # Optional npm cache directory
 .npm
@@ -79,16 +60,7 @@ jspm_packages/
 # Optional REPL history
 .node_repl_history
 
-# Output of 'npm pack'
-*.tgz
-
-# Yarn Integrity file
-.yarn-integrity
-
-# dotenv environment variables file
-.env
-
-# parcel-bundler cache (https://parceljs.org/)
+# parcel-bundler cache
 .cache
 .parcel-cache
 
@@ -111,4 +83,9 @@ jspm_packages/
 .dynamodb/
 
 # TernJS port file
-.tern-port 
+.tern-port
+
+# Lock files
+package-lock.json
+client/package-lock.json
+server/package-lock.json 

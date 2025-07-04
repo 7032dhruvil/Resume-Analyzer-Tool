@@ -33,19 +33,17 @@ const Footer = () => {
   };
 
   const socialLinks = [
-    { icon: <Github className="w-5 h-5" />, href: 'https://github.com', label: 'GitHub' },
-    { icon: <Twitter className="w-5 h-5" />, href: 'https://twitter.com', label: 'Twitter' },
-    { icon: <Linkedin className="w-5 h-5" />, href: 'https://linkedin.com', label: 'LinkedIn' },
-    { icon: <Mail className="w-5 h-5" />, href: 'mailto:hello@resumeanalyzer.com', label: 'Email' }
+    { icon: <Linkedin className="w-5 h-5" />, href: 'https://www.linkedin.com/in/solanki-dhruvil-819168296/', label: 'LinkedIn' },
+    { icon: <Mail className="w-5 h-5" />, href: 'mailto:xyzdeveloper10@gmail.com', label: 'Email' }
   ];
 
   return (
     <footer className="bg-secondary-900 dark:bg-secondary-950 text-white">
       <div className="container mx-auto px-4 py-16">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 mb-12">
-          {/* Brand Section */}
-          <div className="lg:col-span-2">
+        <div className="mb-12">
+          {/* Brand Section - full width */}
+          <div className="w-full mb-10">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -82,89 +80,89 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Product Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            <h4 className="font-semibold text-white mb-4">Product</h4>
-            <ul className="space-y-3">
-              {footerLinks.product.map((link, index) => (
-                <li key={index}>
-                  <a
-                    href={link.href}
-                    className="text-secondary-400 hover:text-white transition-colors duration-200 text-sm"
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-
-          {/* Company Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <h4 className="font-semibold text-white mb-4">Company</h4>
-            <ul className="space-y-3">
-              {footerLinks.company.map((link, index) => (
-                <li key={index}>
-                  <a
-                    href={link.href}
-                    className="text-secondary-400 hover:text-white transition-colors duration-200 text-sm"
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-
-          {/* Support Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            <h4 className="font-semibold text-white mb-4">Support</h4>
-            <ul className="space-y-3">
-              {footerLinks.support.map((link, index) => (
-                <li key={index}>
-                  <a
-                    href={link.href}
-                    className="text-secondary-400 hover:text-white transition-colors duration-200 text-sm"
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-
-          {/* Legal Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            <h4 className="font-semibold text-white mb-4">Legal</h4>
-            <ul className="space-y-3">
-              {footerLinks.legal.map((link, index) => (
-                <li key={index}>
-                  <a
-                    href={link.href}
-                    className="text-secondary-400 hover:text-white transition-colors duration-200 text-sm"
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
+          {/* Footer Links Row */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {/* Product Links */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              <h4 className="font-semibold text-white mb-4">Product</h4>
+              <ul className="space-y-3">
+                {footerLinks.product.map((link, index) => (
+                  <li key={index}>
+                    <a
+                      href={link.href}
+                      className="text-secondary-400 hover:text-white transition-colors duration-200 text-sm"
+                    >
+                      {link.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+            {/* Company Links */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <h4 className="font-semibold text-white mb-4">Company</h4>
+              <ul className="space-y-3">
+                {footerLinks.company.map((link, index) => (
+                  <li key={index}>
+                    <a
+                      href={link.href}
+                      className="text-secondary-400 hover:text-white transition-colors duration-200 text-sm"
+                    >
+                      {link.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+            {/* Support Links */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              <h4 className="font-semibold text-white mb-4">Support</h4>
+              <ul className="space-y-3">
+                {footerLinks.support.map((link, index) => (
+                  <li key={index}>
+                    <a
+                      href={link.href}
+                      className="text-secondary-400 hover:text-white transition-colors duration-200 text-sm"
+                    >
+                      {link.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+            {/* Legal Links */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              <h4 className="font-semibold text-white mb-4">Legal</h4>
+              <ul className="space-y-3">
+                {footerLinks.legal.map((link, index) => (
+                  <li key={index}>
+                    <a
+                      href={link.href}
+                      className="text-secondary-400 hover:text-white transition-colors duration-200 text-sm"
+                    >
+                      {link.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          </div>
         </div>
 
         {/* Newsletter Section */}
@@ -216,6 +214,9 @@ const Footer = () => {
               <span>•</span>
               <span>Last updated: {new Date().toLocaleDateString()}</span>
             </div>
+          </div>
+          <div className="mt-4 text-center text-secondary-400 text-sm">
+            Developed by <span className="font-semibold text-white">Dhruvil Solanki</span>
           </div>
         </motion.div>
       </div>

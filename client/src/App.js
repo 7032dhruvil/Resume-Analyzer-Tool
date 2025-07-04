@@ -9,6 +9,7 @@ import Footer from './components/Footer';
 import AuthModal from './components/AuthModal';
 import UserAccountModal from './components/UserAccountModal';
 import { Brain, Zap, Shield, Users } from 'lucide-react';
+import { getTestimonials } from './data/teamData';
 
 function App() {
   const [analysisResult, setAnalysisResult] = useState(null);
@@ -66,32 +67,7 @@ function App() {
     }
   ];
 
-  const testimonials = [
-    {
-      name: "Sarah Johnson",
-      role: "Software Engineer",
-      company: "Tech Corp",
-      content: "The AI analysis helped me identify key areas for improvement. I got my dream job within 2 weeks!",
-      rating: 5,
-      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=60&h=60&fit=crop&crop=face"
-    },
-    {
-      name: "Michael Chen",
-      role: "Marketing Manager",
-      company: "Digital Solutions",
-      content: "Incredible insights! The analysis highlighted skills I didn't even realize were valuable.",
-      rating: 5,
-      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=60&h=60&fit=crop&crop=face"
-    },
-    {
-      name: "Emily Rodriguez",
-      role: "UX Designer",
-      company: "Creative Studio",
-      content: "Professional, accurate, and incredibly helpful. This tool is a game-changer for job seekers.",
-      rating: 5,
-      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&h=60&fit=crop&crop=face"
-    }
-  ];
+  const testimonials = getTestimonials();
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -244,11 +220,25 @@ function App() {
                   className="card card-hover"
                 >
                   <div className="flex items-center mb-4">
-                    <img
-                      src={testimonial.avatar}
-                      alt={testimonial.name}
-                      className="w-12 h-12 rounded-full mr-4"
-                    />
+                    <div className="relative w-12 h-12 mr-4">
+                      <img
+                        src={testimonial.avatar}
+                        alt={testimonial.name}
+                        className="w-12 h-12 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                          e.target.nextSibling.style.display = 'flex';
+                        }}
+                      />
+                      <div 
+                        className="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center border-2 border-gray-200 dark:border-gray-700"
+                        style={{ display: 'none' }}
+                      >
+                        <svg className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                        </svg>
+                      </div>
+                    </div>
                     <div>
                       <h4 className="font-semibold text-gray-900 dark:text-white">
                         {testimonial.name}

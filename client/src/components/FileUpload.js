@@ -38,18 +38,14 @@ const FileUpload = ({ onAnalysisComplete, isLoading, setIsLoading }) => {
 
   const handleAnalyze = async () => {
     if (!uploadedFile) {
-      console.error('No file uploaded');
       return;
     }
     
-    console.log('Starting analysis for file:', uploadedFile.name, uploadedFile.type, uploadedFile.size);
     setIsLoading(true);
     setIsAnalyzing(true);
     
     try {
-      console.log('Calling analyzeResume API...');
       const result = await analyzeResume(uploadedFile);
-      console.log('Analysis completed successfully:', result);
       
       if (result && result.analysis) {
         onAnalysisComplete({
@@ -65,24 +61,13 @@ const FileUpload = ({ onAnalysisComplete, isLoading, setIsLoading }) => {
               behavior: 'smooth',
               block: 'start'
             });
-          } else {
-            console.warn('Analysis results element not found');
           }
         }, 500);
       } else {
-        console.error('Invalid response format:', result);
         throw new Error('Invalid response from server');
       }
       
     } catch (error) {
-      console.error('Analysis error:', error);
-      console.error('Error details:', {
-        message: error.message,
-        response: error.response,
-        request: error.request,
-        config: error.config
-      });
-      
       // Show user-friendly error message based on error type
       let errorMessage = 'Analysis failed: ';
       
@@ -115,16 +100,9 @@ const FileUpload = ({ onAnalysisComplete, isLoading, setIsLoading }) => {
 
   const handleTestConnection = async () => {
     try {
-      console.log('Testing connection...');
-      console.log('Current location:', window.location.href);
-      console.log('Hostname:', window.location.hostname);
-      
       const result = await testConnection();
-      console.log('Connection test successful:', result);
       alert('Connection test successful! API is working.');
     } catch (error) {
-      console.error('Connection test failed:', error);
-      
       // Show more detailed error information
       let errorDetails = `Connection test failed: ${error.message}`;
       
@@ -149,8 +127,6 @@ const FileUpload = ({ onAnalysisComplete, isLoading, setIsLoading }) => {
       fullUrl: window.location.href,
       timestamp: new Date().toISOString()
     };
-    
-    console.log('Network Diagnostic:', diagnostic);
     
     // Test different endpoints
     const tests = [

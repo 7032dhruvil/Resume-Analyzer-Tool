@@ -61,13 +61,34 @@ const AnalysisResults = ({ result, fileName = "Resume", onReset }) => {
     { id: 'recommendations', label: 'Recommendations', icon: Award }
   ];
 
+  // Custom label for pie chart segments
+  const renderPieLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, name, index }) => {
+    const RADIAN = Math.PI / 180;
+    const radius = outerRadius + 12; // small offset outside the pie
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+    return (
+      <text
+        x={x}
+        y={y}
+        fill="#fff"
+        textAnchor={x > cx ? 'start' : 'end'}
+        dominantBaseline="central"
+        fontSize="12"
+        style={{ pointerEvents: 'none' }}
+      >
+        {`${name}: ${(percent * 100).toFixed(0)}%`}
+      </text>
+    );
+  };
+
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="w-full px-2 sm:px-4 md:px-8 py-4">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="card mb-8"
+        className="bg-white dark:bg-secondary-900 rounded-2xl shadow-lg mb-6 p-4 sm:p-6"
       >
         <div className="flex flex-col md:flex-row md:items-center md:justify-between">
           <div>
@@ -98,26 +119,20 @@ const AnalysisResults = ({ result, fileName = "Resume", onReset }) => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="card mb-8"
+        className="bg-white dark:bg-secondary-900 rounded-2xl shadow-lg mb-6 p-4 sm:p-6"
       >
-        <div className="text-center">
+        <div className="flex flex-col items-center text-center">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
             Overall Resume Score
           </h2>
-          
-          <div className="flex justify-center mb-6">
+          <div className="flex justify-center mb-4">
             <div className={`score-circle ${analysis.overallScore >= 80 ? 'score-circle-excellent' : analysis.overallScore >= 60 ? 'score-circle-good' : 'score-circle-poor'}`}>
               <span className={getScoreColor(analysis.overallScore || 0)}>
                 {analysis.overallScore || 0}%
               </span>
             </div>
           </div>
-          
-          <p className="text-lg text-gray-700 dark:text-gray-200 mb-4">
-            {analysis.summary || "Analysis summary not available."}
-          </p>
-          
-          <div className="flex items-center justify-center space-x-4 text-sm text-gray-600 dark:text-gray-300">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 mb-4 text-sm text-gray-600 dark:text-gray-300">
             <div className="flex items-center space-x-1">
               <Clock className="w-4 h-4" />
               <span>{analysis.experienceLevel || "Not specified"}</span>
@@ -127,27 +142,30 @@ const AnalysisResults = ({ result, fileName = "Resume", onReset }) => {
               <span>{analysis.industryFit || "General"}</span>
             </div>
           </div>
+          <p className="text-lg text-gray-700 dark:text-gray-200 mb-4">
+            {analysis.summary || "Analysis summary not available."}
+          </p>
         </div>
       </motion.div>
 
       {/* Tabs */}
-      <div className="card mb-8">
-        <div className="border-b border-gray-200 dark:border-gray-700 mb-6">
-          <nav className="flex space-x-8">
+      <div className="bg-white dark:bg-secondary-900 rounded-2xl shadow-lg mb-6 p-4 sm:p-6">
+        <div className="bg-gray-100 dark:bg-secondary-800 rounded-lg shadow flex overflow-x-auto scrollbar-hide mb-6 p-2">
+          <nav className="flex w-full gap-x-2 overflow-x-auto scrollbar-hide whitespace-nowrap justify-between">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               return (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`tab ${
-                    activeTab === tab.id
-                      ? 'tab-active'
-                      : 'tab-inactive'
-                  }`}
+                  className={`flex items-center justify-center min-w-max px-4 py-2 rounded-lg font-medium transition-colors duration-200 focus:outline-none whitespace-nowrap
+                    ${activeTab === tab.id
+                      ? 'bg-primary-600 text-white dark:bg-primary-700 dark:text-white border border-primary-600 dark:border-primary-700 shadow'
+                      : 'text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-secondary-700'}
+                  `}
                 >
-                  <Icon className="w-4 h-4" />
-                  <span>{tab.label}</span>
+                  <Icon className="w-4 h-4 mr-2 flex-shrink-0" />
+                  <span className="block w-full text-center">{tab.label}</span>
                 </button>
               );
             })}
@@ -160,14 +178,14 @@ const AnalysisResults = ({ result, fileName = "Resume", onReset }) => {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="grid md:grid-cols-2 gap-8"
+              className="grid grid-cols-1 md:grid-cols-2 gap-8"
             >
               {/* Chart */}
-              <div>
+              <div className="w-full px-0 sm:px-2 mb-8 md:mb-0 flex flex-col items-center">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                   Section Performance
                 </h3>
-                <div className="h-64">
+                <div className="h-64 w-full max-w-xs sm:max-w-sm md:max-w-md">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={sectionData}>
                       <XAxis dataKey="name" />
@@ -180,11 +198,20 @@ const AnalysisResults = ({ result, fileName = "Resume", onReset }) => {
               </div>
 
               {/* Distribution */}
-              <div>
+              <div className="w-full px-0 sm:px-2 flex flex-col items-center">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                   Score Distribution
                 </h3>
-                <div className="h-64">
+                {/* Legend above the chart, inside the card */}
+                <div className="flex flex-wrap justify-center mb-4 gap-x-6 gap-y-2 text-sm">
+                  {pieData.map((entry, idx) => (
+                    <div key={entry.name} className="flex items-center space-x-2">
+                      <span className="inline-block w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }}></span>
+                      <span className="text-gray-800 dark:text-gray-100">{entry.name}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="h-64 w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
@@ -195,7 +222,7 @@ const AnalysisResults = ({ result, fileName = "Resume", onReset }) => {
                         outerRadius={80}
                         paddingAngle={5}
                         dataKey="value"
-                        label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                        label={renderPieLabel}
                         labelLine={false}
                       >
                         {pieData.map((entry, index) => (
@@ -205,15 +232,6 @@ const AnalysisResults = ({ result, fileName = "Resume", onReset }) => {
                       <Tooltip formatter={(value, name) => [`${value}`, name]} />
                     </PieChart>
                   </ResponsiveContainer>
-                  {/* Legend below the chart */}
-                  <div className="flex justify-center mt-4 space-x-6 text-sm">
-                    {pieData.map((entry, idx) => (
-                      <div key={entry.name} className="flex items-center space-x-2">
-                        <span className="inline-block w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }}></span>
-                        <span className="text-gray-800 dark:text-gray-100">{entry.name}</span>
-                      </div>
-                    ))}
-                  </div>
                 </div>
               </div>
             </motion.div>
