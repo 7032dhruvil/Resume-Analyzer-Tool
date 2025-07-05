@@ -1,7 +1,12 @@
 import axios from 'axios';
 
-// Dynamically determine the API base URL based on current hostname
+// Dynamically determine the API base URL based on environment
 const getApiBaseUrl = () => {
+  // Check for environment variable first (for production)
+  if (process.env.REACT_APP_API_URL) {
+    return process.env.REACT_APP_API_URL;
+  }
+  
   const hostname = window.location.hostname;
   const port = '5002';
   
@@ -10,11 +15,16 @@ const getApiBaseUrl = () => {
     return `http://localhost:${port}/api`;
   }
   
-  // If accessing via IP address, use the same IP for API
+  // For production, use the same domain as the frontend
+  if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
+    return `https://${hostname}/api`;
+  }
+  
+  // Fallback
   return `http://${hostname}:${port}/api`;
 };
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || getApiBaseUrl();
+const API_BASE_URL = getApiBaseUrl();
 
 // Export the API base URL for use in other components
 export { API_BASE_URL };
@@ -84,43 +94,12 @@ export const analyzeResume = async (file) => {
     const formData = new FormData();
     formData.append('resume', file);
 
-    // Try the primary URL first
-    try {
-      const response = await api.post('/analyze-resume', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      return response.data;
-    } catch (primaryError) {
-      // Fallback URLs to try
-      const fallbackUrls = [
-        'http://192.168.1.14:5002/api',
-        'http://localhost:5002/api',
-        'http://127.0.0.1:5002/api'
-      ];
-      
-      for (const fallbackUrl of fallbackUrls) {
-        try {
-          const fallbackApi = axios.create({
-            baseURL: fallbackUrl,
-            timeout: 30000,
-          });
-          
-          const response = await fallbackApi.post('/analyze-resume', formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          });
-          return response.data;
-        } catch (fallbackError) {
-          continue;
-        }
-      }
-      
-      // If all fallbacks fail, throw the original error
-      throw primaryError;
-    }
+    const response = await api.post('/analyze-resume', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
   } catch (error) {
     throw error;
   }
@@ -137,35 +116,8 @@ export const checkHealth = async () => {
 
 export const testConnection = async () => {
   try {
-    // Try the primary URL first
-    try {
-      const response = await api.get('/test');
-      return response.data;
-    } catch (primaryError) {
-      // Fallback URLs to try
-      const fallbackUrls = [
-        'http://192.168.1.14:5002/api',
-        'http://localhost:5002/api',
-        'http://127.0.0.1:5002/api'
-      ];
-      
-      for (const fallbackUrl of fallbackUrls) {
-        try {
-          const fallbackApi = axios.create({
-            baseURL: fallbackUrl,
-            timeout: 10000,
-          });
-          
-          const response = await fallbackApi.get('/test');
-          return response.data;
-        } catch (fallbackError) {
-          continue;
-        }
-      }
-      
-      // If all fallbacks fail, throw the original error
-      throw primaryError;
-    }
+    const response = await api.get('/test');
+    return response.data;
   } catch (error) {
     throw error;
   }

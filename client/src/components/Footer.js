@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Brain, Github, Twitter, Linkedin, Mail, Heart } from 'lucide-react';
+import Logo from './Logo';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -48,14 +49,12 @@ const Footer = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="flex items-center space-x-3 mb-6"
+              className="flex items-center space-x-4 mb-6"
             >
-              <div className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
-                <Brain className="w-6 h-6 text-white" />
-              </div>
+              <Logo size="xl" usePng={true} pngSrc="/logo.png" />
               <div>
-                <h3 className="text-xl font-bold">Resume Analyzer</h3>
-                <p className="text-secondary-400 text-sm">AI-Powered Analysis</p>
+                <h3 className="text-2xl font-bold text-white">Resume Analyzer</h3>
+                <p className="text-secondary-400 text-base">AI-Powered Analysis</p>
               </div>
             </motion.div>
             <p className="text-secondary-400 mb-6 leading-relaxed">

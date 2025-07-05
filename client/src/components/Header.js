@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Brain, Github, Twitter, Sun, Moon, Menu, X, User, LogIn, LogOut } from 'lucide-react';
+import Logo from './Logo';
 
 const Header = ({ user, onLoginClick, onProfileClick, onLogout }) => {
   const [darkMode, setDarkMode] = useState(false);
@@ -42,14 +43,11 @@ const Header = ({ user, onLoginClick, onProfileClick, onLogout }) => {
     >
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo */}
+          {/* Brand Name Only */}
           <motion.div
             whileHover={{ scale: 1.05 }}
             className="flex items-center space-x-3"
           >
-            <div className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
-              <Brain className="w-6 h-6 text-white" />
-            </div>
             <div>
               <h1 className="text-xl font-bold text-secondary-900 dark:text-white">Resume Analyzer</h1>
               <p className="text-xs text-secondary-500 dark:text-secondary-400">AI-Powered Analysis</p>
