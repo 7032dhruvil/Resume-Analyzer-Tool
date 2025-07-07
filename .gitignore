@@ -8,6 +8,7 @@ client/build/
 server/dist/
 dist/
 build/
+repo-files/
 
 # Logs
 *.log
@@ -88,4 +89,10 @@ coverage/
 # Lock files
 package-lock.json
 client/package-lock.json
-server/package-lock.json 
+server/package-lock.json
+
+# Mac system files
+__MACOSX/
+
+# PDF resumes and sensitive docs
+client/public/team/*.pdf 
