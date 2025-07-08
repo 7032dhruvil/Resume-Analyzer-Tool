@@ -61,6 +61,9 @@ const TeamMember = ({ member }) => {
               ${!imageLoaded && !imageError ? 'opacity-0' : 'opacity-100'}
             `}
             style={{ minWidth: 128, minHeight: 128 }}
+            width={128}
+            height={128}
+            loading="lazy"
           />
         </div>
       </div>

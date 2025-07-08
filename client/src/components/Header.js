@@ -48,6 +48,7 @@ const Header = ({ user, onLoginClick, onProfileClick, onLogout }) => {
             whileHover={{ scale: 1.05 }}
             className="flex items-center space-x-3"
           >
+            <Logo usePng={true} pngSrc="/logo.webp" size="default" />
             <div>
               <h1 className="text-xl font-bold text-secondary-900 dark:text-white">Resume Analyzer</h1>
               <p className="text-xs text-secondary-500 dark:text-secondary-400">AI-Powered Analysis</p>

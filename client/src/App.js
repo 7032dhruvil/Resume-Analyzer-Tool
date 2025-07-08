@@ -1,15 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { motion } from 'framer-motion';
 import Header from './components/Header';
-import FileUpload from './components/FileUpload';
-import AnalysisResults from './components/AnalysisResults';
-import About from './components/About';
-import Contact from './components/Contact';
 import Footer from './components/Footer';
-import AuthModal from './components/AuthModal';
-import UserAccountModal from './components/UserAccountModal';
-import { Brain, Zap, Shield, Users } from 'lucide-react';
+import About from './components/About';
+import Brain from 'lucide-react/dist/esm/icons/brain';
+import Zap from 'lucide-react/dist/esm/icons/zap';
+import Shield from 'lucide-react/dist/esm/icons/shield';
+import Users from 'lucide-react/dist/esm/icons/users';
 import { getTestimonials } from './data/teamData';
+
+const AnalysisResults = lazy(() => import('./components/AnalysisResults'));
+const AuthModal = lazy(() => import('./components/AuthModal'));
+const UserAccountModal = lazy(() => import('./components/UserAccountModal'));
+const FileUpload = lazy(() => import('./components/FileUpload'));
+const Contact = lazy(() => import('./components/Contact'));
 
 function App() {
   const [analysisResult, setAnalysisResult] = useState(null);
@@ -82,28 +86,21 @@ function App() {
         {/* Hero Section */}
         <section className="section gradient-bg-dark text-white">
           <div className="container">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center"
-            >
-              <h1 className="text-5xl md:text-7xl font-bold mb-6">
+            <div className="text-center">
+              <h1 className="text-4xl md:text-7xl font-bold mb-6" style={{fontFamily: 'Inter, sans-serif', fontWeight: 700, letterSpacing: '-0.02em'}}>
                 AI-Powered Resume Analysis
               </h1>
-              <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
+              <p className="text-base md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed" style={{fontFamily: 'Inter, sans-serif', fontWeight: 400, letterSpacing: '-0.01em'}}>
                 Get instant, professional feedback on your resume with our advanced AI technology. 
                 Stand out in today's competitive job market.
               </p>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <button
                 onClick={() => document.getElementById('upload-section').scrollIntoView({ behavior: 'smooth' })}
                 className="btn-primary text-lg px-8 py-4 bg-white text-blue-600 hover:bg-blue-50"
               >
                 Start Analyzing Now
-              </motion.button>
-            </motion.div>
+              </button>
+            </div>
           </div>
         </section>
 
@@ -116,7 +113,7 @@ function App() {
               transition={{ duration: 0.6 }}
               className="text-center mb-16"
             >
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+              <h2 className="text-2xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6" style={{fontFamily: 'Inter, sans-serif', fontWeight: 700, letterSpacing: '-0.01em'}}>
                 Why Choose Our AI Analyzer?
               </h2>
               <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
@@ -168,11 +165,13 @@ function App() {
               </p>
             </motion.div>
 
-            <FileUpload 
-              onAnalysisComplete={setAnalysisResult}
-              isLoading={isLoading}
-              setIsLoading={setIsLoading}
-            />
+            <Suspense fallback={<div>Loading...</div>}>
+              <FileUpload 
+                onAnalysisComplete={setAnalysisResult}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
+              />
+            </Suspense>
 
             {analysisResult && (
               <motion.div
@@ -182,11 +181,13 @@ function App() {
                 transition={{ duration: 0.6 }}
                 className="mt-12"
               >
-                <AnalysisResults 
-                  result={analysisResult} 
-                  fileName={analysisResult.fileName || "Resume"}
-                  onReset={() => setAnalysisResult(null)}
-                />
+                <Suspense fallback={<div>Loading...</div>}>
+                  <AnalysisResults 
+                    result={analysisResult} 
+                    fileName={analysisResult.fileName || "Resume"}
+                    onReset={() => setAnalysisResult(null)}
+                  />
+                </Suspense>
               </motion.div>
             )}
           </div>
@@ -308,26 +309,32 @@ function App() {
         <About />
 
         {/* Contact Section */}
-        <Contact />
+        <Suspense fallback={<div>Loading...</div>}>
+          <Contact />
+        </Suspense>
       </main>
 
       <Footer />
 
       {/* Auth Modal */}
-      <AuthModal
-        isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
-        onAuthSuccess={handleAuthSuccess}
-      />
+      <Suspense fallback={<div>Loading...</div>}>
+        <AuthModal
+          isOpen={isAuthModalOpen}
+          onClose={() => setIsAuthModalOpen(false)}
+          onAuthSuccess={handleAuthSuccess}
+        />
+      </Suspense>
 
       {/* User Account Modal */}
-      <UserAccountModal
-        isOpen={isUserAccountModalOpen}
-        onClose={() => setIsUserAccountModalOpen(false)}
-        user={user}
-        onLogout={handleLogout}
-        onUpdateProfile={handleUpdateProfile}
-      />
+      <Suspense fallback={<div>Loading...</div>}>
+        <UserAccountModal
+          isOpen={isUserAccountModalOpen}
+          onClose={() => setIsUserAccountModalOpen(false)}
+          user={user}
+          onLogout={handleLogout}
+          onUpdateProfile={handleUpdateProfile}
+        />
+      </Suspense>
     </div>
   );
 }

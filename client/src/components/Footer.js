@@ -51,7 +51,7 @@ const Footer = () => {
               transition={{ duration: 0.6 }}
               className="flex items-center space-x-4 mb-6"
             >
-              <Logo size="xl" usePng={true} pngSrc="/logo.png" />
+              <Logo usePng={true} pngSrc="/logo.webp" />
               <div>
                 <h3 className="text-2xl font-bold text-white">Resume Analyzer</h3>
                 <p className="text-secondary-400 text-base">AI-Powered Analysis</p>
