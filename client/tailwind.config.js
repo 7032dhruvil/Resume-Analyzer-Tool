@@ -1,8 +1,13 @@
 module.exports = {
   darkMode: 'class',
   content: [
+<<<<<<< HEAD
     './src/**/*.{js,jsx,ts,tsx}',
     './index.html'
+=======
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./public/index.html"
+>>>>>>> 9f0dba5a0d1d03d2733b3d37479578228d3890ae
   ],
   theme: {
     extend: {
@@ -58,4 +63,11 @@ module.exports = {
       },
     },
   },
+<<<<<<< HEAD
+=======
+  plugins: [
+    require('tailwindcss'),
+    require('autoprefixer'),
+  ],
+>>>>>>> 9f0dba5a0d1d03d2733b3d37479578228d3890ae
 }; 

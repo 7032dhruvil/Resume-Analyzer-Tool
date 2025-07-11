@@ -8,7 +8,10 @@ client/build/
 server/dist/
 dist/
 build/
+<<<<<<< HEAD
 repo-files/
+=======
+>>>>>>> 9f0dba5a0d1d03d2733b3d37479578228d3890ae
 
 # Logs
 *.log
@@ -89,6 +92,7 @@ coverage/
 # Lock files
 package-lock.json
 client/package-lock.json
+<<<<<<< HEAD
 server/package-lock.json 
 
 # Mac system files
@@ -96,3 +100,6 @@ __MACOSX/
 
 # PDF resumes and sensitive docs
 client/public/team/*.pdf 
+=======
+server/package-lock.json 
+>>>>>>> 9f0dba5a0d1d03d2733b3d37479578228d3890ae

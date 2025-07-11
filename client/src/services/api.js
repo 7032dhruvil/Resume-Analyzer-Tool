@@ -3,8 +3,13 @@ import axios from 'axios';
 // Dynamically determine the API base URL based on environment
 const getApiBaseUrl = () => {
   // Check for environment variable first (for production)
+<<<<<<< HEAD
   if (import.meta.env.VITE_API_URL) {
     return import.meta.env.VITE_API_URL;
+=======
+  if (process.env.REACT_APP_API_URL) {
+    return process.env.REACT_APP_API_URL;
+>>>>>>> 9f0dba5a0d1d03d2733b3d37479578228d3890ae
   }
   
   const hostname = window.location.hostname;

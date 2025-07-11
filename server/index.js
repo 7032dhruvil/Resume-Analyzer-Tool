@@ -30,10 +30,14 @@ app.use(express.json({ limit: '10mb' }));
 
 // Serve static files from the React app in production
 if (process.env.NODE_ENV === 'production') {
+<<<<<<< HEAD
   app.use(express.static(path.join(__dirname, '../client/build'), {
     maxAge: '1y',
     etag: false
   }));
+=======
+  app.use(express.static(path.join(__dirname, '../client/build')));
+>>>>>>> 9f0dba5a0d1d03d2733b3d37479578228d3890ae
 }
 
 // Rate limiting

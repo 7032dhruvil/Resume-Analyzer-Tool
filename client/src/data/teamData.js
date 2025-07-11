@@ -4,7 +4,11 @@ export const teamMembers = [
     id: 1,
     name: "Sarah Johnson",
     role: "Lead AI Engineer",
+<<<<<<< HEAD
     image: "/team/sarah.webp",
+=======
+    image: "/team/sarah.jpg",
+>>>>>>> 9f0dba5a0d1d03d2733b3d37479578228d3890ae
     fallbackImage: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
     bio: "Expert in machine learning and natural language processing with 8+ years of experience. Passionate about making AI accessible to everyone.",
     linkedin: "#",
@@ -17,7 +21,11 @@ export const teamMembers = [
     id: 2,
     name: "Michael Chen",
     role: "Product Manager",
+<<<<<<< HEAD
     image: "/team/michael.webp",
+=======
+    image: "/team/michael.jpg",
+>>>>>>> 9f0dba5a0d1d03d2733b3d37479578228d3890ae
     fallbackImage: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
     bio: "Passionate about creating user-centric solutions that solve real-world problems. Focused on delivering exceptional user experiences.",
     linkedin: "#",
@@ -30,7 +38,11 @@ export const teamMembers = [
     id: 3,
     name: "Emily Rodriguez",
     role: "UX Designer",
+<<<<<<< HEAD
     image: "/team/emily.webp",
+=======
+    image: "/team/emily.jpg",
+>>>>>>> 9f0dba5a0d1d03d2733b3d37479578228d3890ae
     fallbackImage: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
     bio: "Dedicated to crafting beautiful, intuitive experiences that users love. Specializes in accessibility and user research.",
     linkedin: "#",
