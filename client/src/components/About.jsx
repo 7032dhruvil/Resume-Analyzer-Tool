@@ -44,7 +44,7 @@ const About = () => {
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.2 }}
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-secondary-900 dark:text-white mb-6">
@@ -60,7 +60,7 @@ const About = () => {
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ duration: 0.2, delay: 0.05 }}
           className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20"
         >
           {features.map((feature, index) => (
@@ -68,7 +68,7 @@ const About = () => {
               key={index}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              transition={{ duration: 0.15, delay: index * 0.03 }}
               whileHover={{ y: -5 }}
               className="card text-center group"
             >
@@ -91,7 +91,7 @@ const About = () => {
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          transition={{ duration: 0.2, delay: 0.08 }}
           className="text-center"
         >
           <h3 className="text-3xl font-bold text-secondary-900 dark:text-white mb-4">
@@ -112,7 +112,7 @@ const About = () => {
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
+          transition={{ duration: 0.2, delay: 0.1 }}
           className="mt-20 text-center"
         >
           <div className="bg-gradient-to-r from-primary-600 to-primary-700 rounded-2xl p-8 text-white">

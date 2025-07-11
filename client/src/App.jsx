@@ -30,6 +30,15 @@ function App() {
     }
   }, []);
 
+  // Preload lazy components for faster load
+  useEffect(() => {
+    import('./components/AnalysisResults');
+    import('./components/AuthModal');
+    import('./components/UserAccountModal');
+    import('./components/FileUpload');
+    import('./components/Contact');
+  }, []);
+
   const handleAuthSuccess = (authData) => {
     setUser(authData.user);
     localStorage.setItem('user', JSON.stringify(authData.user));
@@ -110,7 +119,7 @@ function App() {
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.3 }}
               className="text-center mb-16"
             >
               <h2 className="text-2xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6" style={{fontFamily: 'Inter, sans-serif', fontWeight: 700, letterSpacing: '-0.01em'}}>
@@ -127,7 +136,7 @@ function App() {
                   key={index}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  transition={{ duration: 0.2, delay: index * 0.03 }}
                   whileHover={{ y: -5 }}
                   className="card card-hover text-center group"
                 >
@@ -154,7 +163,7 @@ function App() {
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.3 }}
               className="text-center mb-16"
             >
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
@@ -178,7 +187,7 @@ function App() {
                 id="analysis-results"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.3 }}
                 className="mt-12"
               >
                 <Suspense fallback={<div>Loading...</div>}>
@@ -199,7 +208,7 @@ function App() {
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.3 }}
               className="text-center mb-16"
             >
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
@@ -216,7 +225,7 @@ function App() {
                   key={index}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  transition={{ duration: 0.2, delay: index * 0.03 }}
                   whileHover={{ y: -5 }}
                   className="card card-hover"
                 >
@@ -272,7 +281,7 @@ function App() {
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 0.2 }}
               >
                 <div className="text-4xl font-bold mb-2">50K+</div>
                 <div className="text-blue-100">Resumes Analyzed</div>
@@ -280,7 +289,7 @@ function App() {
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
+                transition={{ duration: 0.2, delay: 0.03 }}
               >
                 <div className="text-4xl font-bold mb-2">95%</div>
                 <div className="text-blue-100">Accuracy Rate</div>
@@ -288,7 +297,7 @@ function App() {
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
+                transition={{ duration: 0.2, delay: 0.06 }}
               >
                 <div className="text-4xl font-bold mb-2">10K+</div>
                 <div className="text-blue-100">Happy Users</div>
@@ -296,7 +305,7 @@ function App() {
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
+                transition={{ duration: 0.2, delay: 0.09 }}
               >
                 <div className="text-4xl font-bold mb-2">24/7</div>
                 <div className="text-blue-100">Available</div>
