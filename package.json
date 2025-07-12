@@ -5,12 +5,8 @@
   "main": "server/index.js",
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "cd server && npm run dev",
-<<<<<<< HEAD
+    "server": "cd server && npm start",
     "client": "cd client && npm run dev",
-=======
-    "client": "cd client && npm start",
->>>>>>> 9f0dba5a0d1d03d2733b3d37479578228d3890ae
     "build": "cd client && npm run build",
     "install-all": "npm install && cd server && npm install && cd ../client && npm install",
     "start": "cd server && npm start",

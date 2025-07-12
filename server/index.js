@@ -21,7 +21,10 @@ app.set('trust proxy', 1);
 app.use(helmet());
 app.use(compression());
 app.use(cors({
-  origin: process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:3000'],
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:3000'
+  ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
@@ -30,14 +33,10 @@ app.use(express.json({ limit: '10mb' }));
 
 // Serve static files from the React app in production
 if (process.env.NODE_ENV === 'production') {
-<<<<<<< HEAD
   app.use(express.static(path.join(__dirname, '../client/build'), {
     maxAge: '1y',
     etag: false
   }));
-=======
-  app.use(express.static(path.join(__dirname, '../client/build')));
->>>>>>> 9f0dba5a0d1d03d2733b3d37479578228d3890ae
 }
 
 // Rate limiting

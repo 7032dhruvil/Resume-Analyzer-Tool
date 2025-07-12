@@ -270,18 +270,22 @@ const FileUpload = ({ onAnalysisComplete, isLoading, setIsLoading }) => {
               Your resume is processed securely and not stored permanently. 
               We use AI to analyze your document and provide feedback.
             </p>
+            {/*
             <button
               onClick={handleTestConnection}
               className="mt-2 text-xs text-blue-600 hover:text-blue-700 underline"
             >
               Test API Connection
             </button>
-            <button
-              onClick={handleNetworkDiagnostic}
-              className="mt-1 text-xs text-gray-600 hover:text-gray-700 underline block"
-            >
-              Network Diagnostic
-            </button>
+            <div className="w-full flex justify-center">
+              <button
+                onClick={handleNetworkDiagnostic}
+                className="mt-2 text-xs text-gray-600 hover:text-gray-700 underline font-semibold mx-auto"
+              >
+                Network Diagnostic
+              </button>
+            </div>
+            */}
           </div>
         </motion.div>
       ) : (
