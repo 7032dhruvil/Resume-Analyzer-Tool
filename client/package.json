@@ -6,7 +6,6 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-<<<<<<< HEAD
     "axios": "^1.6.0",
     "clsx": "^2.0.0",
     "framer-motion": "^10.16.4",
@@ -25,26 +24,6 @@
     "build": "vite build",
     "preview": "vite preview",
     "build:analyze": "source-map-explorer 'dist/assets/*.js'"
-=======
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "axios": "^1.6.0",
-    "react-dropzone": "^14.2.3",
-    "react-router-dom": "^6.18.0",
-    "framer-motion": "^10.16.4",
-    "lucide-react": "^0.292.0",
-    "recharts": "^2.8.0",
-    "react-hot-toast": "^2.4.1",
-    "clsx": "^2.0.0",
-    "tailwind-merge": "^2.0.0"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
->>>>>>> 9f0dba5a0d1d03d2733b3d37479578228d3890ae
   },
   "eslintConfig": {
     "extends": [
@@ -65,7 +44,6 @@
     ]
   },
   "devDependencies": {
-<<<<<<< HEAD
     "@vitejs/plugin-react": "^4.0.0",
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.31",
@@ -74,11 +52,3 @@
   },
   "proxy": "http://localhost:5002"
 }
-=======
-    "tailwindcss": "^3.3.5",
-    "autoprefixer": "^10.4.16",
-    "postcss": "^8.4.31"
-  },
-  "proxy": "http://localhost:5002"
-} 
->>>>>>> 9f0dba5a0d1d03d2733b3d37479578228d3890ae
