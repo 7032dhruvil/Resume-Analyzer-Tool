@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Sun, Moon, Menu, X, User, LogIn, LogOut } from 'lucide-react';
+import { FaSun, FaMoon, FaUser, FaSignInAlt, FaSignOutAlt, FaBars, FaTimes } from 'react-icons/fa';
 import Logo from './Logo';
 
 const Header = ({ user, onLoginClick, onProfileClick, onLogout }) => {
@@ -32,7 +32,7 @@ const Header = ({ user, onLoginClick, onProfileClick, onLogout }) => {
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
         {/* Logo and Brand */}
         <div className="flex items-center space-x-3">
-          <Logo usePng={true} pngSrc="/logo.webp" size="default" />
+          <Logo size="default" />
           <div>
             <h1 className="text-xl font-bold text-secondary-900 dark:text-white">Resume Analyzer</h1>
             <p className="text-xs text-secondary-500 dark:text-secondary-400">AI-Powered Analysis</p>
@@ -53,7 +53,7 @@ const Header = ({ user, onLoginClick, onProfileClick, onLogout }) => {
             className="p-2 rounded-lg bg-secondary-100 dark:bg-secondary-800 text-secondary-600 dark:text-secondary-300 hover:bg-secondary-200 dark:hover:bg-secondary-700 transition-colors"
             aria-label="Toggle dark mode"
           >
-            {darkMode ? <Sun className="w-5 h-5 mx-auto" /> : <Moon className="w-5 h-5 mx-auto" />}
+            {darkMode ? <FaSun className="w-5 h-5 mx-auto" /> : <FaMoon className="w-5 h-5 mx-auto" />}
           </button>
           {user ? (
             <>
@@ -61,14 +61,14 @@ const Header = ({ user, onLoginClick, onProfileClick, onLogout }) => {
                 onClick={onProfileClick}
                 className="flex items-center space-x-2 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors"
               >
-                <User className="w-4 h-4" />
+                <FaUser className="w-4 h-4" />
                 <span>{user.name}</span>
               </button>
               <button
                 onClick={onLogout}
                 className="flex items-center space-x-2 px-4 py-2 bg-secondary-100 hover:bg-secondary-200 text-secondary-700 dark:bg-secondary-800 dark:hover:bg-secondary-700 dark:text-secondary-300 rounded-lg transition-colors"
               >
-                <LogOut className="w-4 h-4" />
+                <FaSignOutAlt className="w-4 h-4" />
                 <span>Logout</span>
               </button>
             </>
@@ -77,7 +77,7 @@ const Header = ({ user, onLoginClick, onProfileClick, onLogout }) => {
               onClick={onLoginClick}
               className="flex items-center space-x-2 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors"
             >
-              <LogIn className="w-4 h-4" />
+              <FaSignInAlt className="w-4 h-4" />
               <span>Login</span>
             </button>
           )}
@@ -90,14 +90,14 @@ const Header = ({ user, onLoginClick, onProfileClick, onLogout }) => {
             className="p-2 rounded-lg bg-secondary-100 dark:bg-secondary-800 text-secondary-600 dark:text-secondary-300"
             aria-label="Toggle dark mode"
           >
-            {darkMode ? <Sun className="w-5 h-5 mx-auto" /> : <Moon className="w-5 h-5 mx-auto" />}
+            {darkMode ? <FaSun className="w-5 h-5 mx-auto" /> : <FaMoon className="w-5 h-5 mx-auto" />}
           </button>
           <button
             onClick={toggleMobileMenu}
             className="p-2 rounded-lg bg-secondary-100 dark:bg-secondary-800 text-secondary-600 dark:text-secondary-300"
             aria-label="Toggle menu"
           >
-            {mobileMenuOpen ? <X className="w-5 h-5 mx-auto" /> : <Menu className="w-5 h-5 mx-auto" />}
+            {mobileMenuOpen ? <FaTimes className="w-5 h-5 mx-auto" /> : <FaBars className="w-5 h-5 mx-auto" />}
           </button>
         </div>
       </div>
@@ -111,17 +111,17 @@ const Header = ({ user, onLoginClick, onProfileClick, onLogout }) => {
             {user ? (
               <>
                 <button onClick={() => { onProfileClick(); setMobileMenuOpen(false); }} className="flex items-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-lg w-full">
-                  <User className="w-4 h-4" />
+                  <FaUser className="w-4 h-4" />
                   <span>{user.name}</span>
                 </button>
                 <button onClick={() => { onLogout(); setMobileMenuOpen(false); }} className="flex items-center space-x-2 px-4 py-2 bg-secondary-100 hover:bg-secondary-200 text-secondary-700 dark:bg-secondary-800 dark:hover:bg-secondary-700 dark:text-secondary-300 rounded-lg w-full transition-colors">
-                  <LogOut className="w-4 h-4" />
+                  <FaSignOutAlt className="w-4 h-4" />
                   <span>Logout</span>
                 </button>
               </>
             ) : (
               <button onClick={() => { onLoginClick(); setMobileMenuOpen(false); }} className="flex items-center space-x-2 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg w-full transition-colors">
-                <LogIn className="w-4 h-4" />
+                <FaSignInAlt className="w-4 h-4" />
                 <span>Login</span>
               </button>
             )}

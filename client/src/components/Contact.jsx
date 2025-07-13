@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Clock, Send, CheckCircle } from 'lucide-react';
+import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaClock, FaPaperPlane, FaCheckCircle } from 'react-icons/fa';
 
 // New FAQSection component
 const FAQSection = ({ faqs }) => (
@@ -10,11 +9,8 @@ const FAQSection = ({ faqs }) => (
     </h3>
     <div className="space-y-3">
       {faqs.map((faq, index) => (
-        <motion.div
+        <div
           key={index}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: index * 0.1 }}
           className="bg-secondary-50 dark:bg-secondary-900/30 rounded-lg p-4 border border-secondary-100 dark:border-secondary-800"
         >
           <h4 className="font-semibold text-secondary-900 dark:text-white mb-2 text-sm">
@@ -23,7 +19,7 @@ const FAQSection = ({ faqs }) => (
           <p className="text-secondary-600 dark:text-secondary-300 text-xs">
             {faq.answer}
           </p>
-        </motion.div>
+        </div>
       ))}
     </div>
   </div>
@@ -72,25 +68,25 @@ const Contact = () => {
 
   const contactInfo = [
     {
-      icon: <Mail className="w-5 h-5" />,
+      icon: <FaEnvelope className="w-5 h-5" />,
       title: "Email Us",
       details: ["xyzdeveloper10@gmail.com", "info@samplemail.com"],
       color: "text-primary-600 dark:text-primary-400"
     },
     {
-      icon: <Phone className="w-5 h-5" />,
+      icon: <FaPhone className="w-5 h-5" />,
       title: "Call Us",
       details: ["+91 8690295298", "+91 9876543210"],
       color: "text-success-600 dark:text-success-400"
     },
     {
-      icon: <MapPin className="w-5 h-5" />,
+      icon: <FaMapMarkerAlt className="w-5 h-5" />,
       title: "Visit Us",
       details: ["Ahmedabad, Gujarat, India", "380015"],
       color: "text-warning-600 dark:text-warning-400"
     },
     {
-      icon: <Clock className="w-5 h-5" />,
+      icon: <FaClock className="w-5 h-5" />,
       title: "Business Hours",
       details: ["Mon-Fri: 10AM-7PM IST", "Sat: 10AM-2PM IST"],
       color: "text-error-600 dark:text-error-400"
@@ -120,43 +116,29 @@ const Contact = () => {
     <section id="contact" className="py-16 bg-gradient-to-br from-secondary-50 to-primary-50 dark:from-secondary-900 dark:to-secondary-800">
       <div className="container mx-auto px-4">
         {/* Hero Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
+        <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 dark:text-white mb-4">
             Get in Touch
           </h2>
           <p className="text-lg text-secondary-600 dark:text-secondary-300 max-w-2xl mx-auto">
             Have questions about our AI resume analyzer? We'd love to hear from you.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid lg:grid-cols-3 gap-8 mb-0">
           {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-2 card"
-          >
+          <div className="lg:col-span-2 card">
             <h3 className="text-xl font-bold text-secondary-900 dark:text-white mb-6">
               Send us a Message
             </h3>
             
             {submitStatus === 'success' && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mb-6 p-4 bg-success-50 dark:bg-success-900/20 border border-success-200 dark:border-success-800 rounded-lg flex items-center space-x-3"
-              >
-                <CheckCircle className="w-5 h-5 text-success-600 dark:text-success-400" />
+              <div className="mb-6 p-4 bg-success-50 dark:bg-success-900/20 border border-success-200 dark:border-success-800 rounded-lg flex items-center space-x-3">
+                <FaCheckCircle className="w-5 h-5 text-success-600 dark:text-success-400" />
                 <span className="text-success-700 dark:text-success-300 font-medium">
                   Message sent successfully! We'll get back to you soon.
                 </span>
-              </motion.div>
+              </div>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -221,11 +203,9 @@ const Contact = () => {
                 />
               </div>
               
-              <motion.button
+              <button
                 type="submit"
                 disabled={isSubmitting}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
                 className="btn-primary w-full flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
@@ -235,33 +215,22 @@ const Contact = () => {
                   </>
                 ) : (
                   <>
-                    <Send className="w-5 h-5" />
+                    <FaPaperPlane className="w-5 h-5" />
                     <span>Send Message</span>
                   </>
                 )}
-              </motion.button>
+              </button>
             </form>
-          </motion.div>
+          </div>
 
           {/* Contact Information */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="card p-6 flex flex-col justify-evenly"
-          >
+          <div className="card p-6 flex flex-col justify-evenly">
             <h3 className="text-xl font-bold text-secondary-900 dark:text-white mb-4">
               Contact Information
             </h3>
             <div className="space-y-4">
               {contactInfo.map((info, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="flex items-start space-x-3"
-                >
+                <div key={index} className="flex items-start space-x-3">
                   <div className={`w-10 h-10 bg-secondary-100 dark:bg-secondary-800 rounded-lg flex items-center justify-center ${info.color}`}>
                     {info.icon}
                   </div>
@@ -275,10 +244,10 @@ const Contact = () => {
                       </p>
                     ))}
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
 
         {/* FAQ Section: full width below the grid */}
@@ -287,12 +256,7 @@ const Contact = () => {
         </div>
 
         {/* Map/Office Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="card text-center"
-        >
+        <div className="card text-center">
           <h3 className="text-xl font-bold text-secondary-900 dark:text-white mb-4">
             Visit Our Office
           </h3>
@@ -311,7 +275,7 @@ const Contact = () => {
               referrerPolicy="no-referrer-when-downgrade"
             ></iframe>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

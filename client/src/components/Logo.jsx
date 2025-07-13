@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Logo = ({ className = '', size = 'default', pngSrc = '/logo.webp' }) => {
+const Logo = ({ className = '', size = 'default' }) => {
   const sizeClasses = {
     small: 'w-8 h-8',
     default: 'w-10 h-10',
@@ -11,7 +11,7 @@ const Logo = ({ className = '', size = 'default', pngSrc = '/logo.webp' }) => {
 
   return (
     <img 
-      src={pngSrc} 
+      src="/logo.webp" 
       alt="Logo" 
       className={`${sizeClasses[size]} object-contain ${className}`}
       loading="lazy"

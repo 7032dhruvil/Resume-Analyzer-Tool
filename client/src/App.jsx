@@ -1,12 +1,8 @@
-import React, { useState, useEffect, Suspense, lazy } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, Suspense, lazy, useMemo, useCallback } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import About from './components/About';
-import Brain from 'lucide-react/dist/esm/icons/brain';
-import Zap from 'lucide-react/dist/esm/icons/zap';
-import Shield from 'lucide-react/dist/esm/icons/shield';
-import Users from 'lucide-react/dist/esm/icons/users';
+import { FaBrain, FaBolt, FaShieldAlt, FaUsers } from 'react-icons/fa';
 import { getTestimonials } from './data/teamData';
 
 const AnalysisResults = lazy(() => import('./components/AnalysisResults'));
@@ -30,57 +26,48 @@ function App() {
     }
   }, []);
 
-  // Preload lazy components for faster load
-  useEffect(() => {
-    import('./components/AnalysisResults');
-    import('./components/AuthModal');
-    import('./components/UserAccountModal');
-    import('./components/FileUpload');
-    import('./components/Contact');
-  }, []);
-
-  const handleAuthSuccess = (authData) => {
+  const handleAuthSuccess = useCallback((authData) => {
     setUser(authData.user);
     localStorage.setItem('user', JSON.stringify(authData.user));
     localStorage.setItem('token', authData.token);
-  };
+  }, []);
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     setUser(null);
     localStorage.removeItem('user');
     localStorage.removeItem('token');
     setIsUserAccountModalOpen(false);
-  };
+  }, []);
 
-  const handleUpdateProfile = (updatedProfile) => {
+  const handleUpdateProfile = useCallback((updatedProfile) => {
     setUser(prev => ({ ...prev, ...updatedProfile }));
     localStorage.setItem('user', JSON.stringify({ ...user, ...updatedProfile }));
-  };
+  }, [user]);
 
-  const features = [
+  const features = useMemo(() => ([
     {
-      icon: <Brain className="w-8 h-8" />,
+      icon: <FaBrain size={32} />,
       title: "AI-Powered Analysis",
       description: "Advanced machine learning algorithms provide comprehensive resume insights and optimization suggestions."
     },
     {
-      icon: <Zap className="w-8 h-8" />,
+      icon: <FaBolt size={32} />,
       title: "Lightning Fast",
       description: "Get detailed analysis results in seconds, not minutes. Optimized for speed and efficiency."
     },
     {
-      icon: <Shield className="w-8 h-8" />,
+      icon: <FaShieldAlt size={32} />,
       title: "Secure & Private",
       description: "Your data is encrypted and never stored permanently. Your privacy is our top priority."
     },
     {
-      icon: <Users className="w-8 h-8" />,
+      icon: <FaUsers size={32} />,
       title: "Industry Expertise",
       description: "Built with insights from HR professionals and industry experts across various sectors."
     }
-  ];
+  ]), []);
 
-  const testimonials = getTestimonials();
+  const testimonials = useMemo(() => getTestimonials(), []);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -96,10 +83,10 @@ function App() {
         <section className="section gradient-bg-dark text-white">
           <div className="container">
             <div className="text-center">
-              <h1 className="text-4xl md:text-7xl font-bold mb-6" style={{fontFamily: 'Inter, sans-serif', fontWeight: 700, letterSpacing: '-0.02em'}}>
+              <h1 className="hero-h1">
                 AI-Powered Resume Analysis
               </h1>
-              <p className="text-base md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed" style={{fontFamily: 'Inter, sans-serif', fontWeight: 400, letterSpacing: '-0.01em'}}>
+              <p className="text-base md:text-1.75xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed" style={{fontFamily: 'Inter, sans-serif', fontWeight: 400, letterSpacing: '-0.01em'}}>
                 Get instant, professional feedback on your resume with our advanced AI technology. 
                 Stand out in today's competitive job market.
               </p>
@@ -116,30 +103,18 @@ function App() {
         {/* Features Section */}
         <section id="features" className="section section-white">
           <div className="container">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className="text-center mb-16"
-            >
+            <div className="text-center mb-16">
               <h2 className="text-2xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6" style={{fontFamily: 'Inter, sans-serif', fontWeight: 700, letterSpacing: '-0.01em'}}>
                 Why Choose Our AI Analyzer?
               </h2>
               <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
                 Experience the future of resume optimization with cutting-edge AI technology
               </p>
-            </motion.div>
+            </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               {features.map((feature, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.2, delay: index * 0.03 }}
-                  whileHover={{ y: -5 }}
-                  className="card card-hover text-center group"
-                >
+                <div key={index} className="card card-hover text-center group">
                   <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-200 dark:group-hover:bg-blue-800 transition-colors duration-200">
                     <div className="text-blue-600 dark:text-blue-400">
                       {feature.icon}
@@ -151,7 +126,7 @@ function App() {
                   <p className="text-gray-600 dark:text-gray-300">
                     {feature.description}
                   </p>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
@@ -160,34 +135,28 @@ function App() {
         {/* Upload Section */}
         <section id="upload-section" className="section section-gradient">
           <div className="container">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className="text-center mb-16"
-            >
+            <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
                 Analyze Your Resume
               </h2>
               <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
                 Upload your resume and get instant AI-powered feedback and optimization suggestions
               </p>
-            </motion.div>
+            </div>
 
             <Suspense fallback={<div>Loading...</div>}>
               <FileUpload 
                 onAnalysisComplete={setAnalysisResult}
                 isLoading={isLoading}
                 setIsLoading={setIsLoading}
+                user={user}
+                onOpenAuthModal={() => setIsAuthModalOpen(true)}
               />
             </Suspense>
 
             {analysisResult && (
-              <motion.div
+              <div
                 id="analysis-results"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
                 className="mt-12"
               >
                 <Suspense fallback={<div>Loading...</div>}>
@@ -197,7 +166,7 @@ function App() {
                     onReset={() => setAnalysisResult(null)}
                   />
                 </Suspense>
-              </motion.div>
+              </div>
             )}
           </div>
         </section>
@@ -205,30 +174,18 @@ function App() {
         {/* Testimonials Section */}
         <section className="section section-white">
           <div className="container">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className="text-center mb-16"
-            >
+            <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
                 What Our Users Say
               </h2>
               <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
                 Join thousands of satisfied users who have transformed their careers
               </p>
-            </motion.div>
+            </div>
 
             <div className="grid md:grid-cols-3 gap-8">
               {testimonials.map((testimonial, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.2, delay: index * 0.03 }}
-                  whileHover={{ y: -5 }}
-                  className="card card-hover"
-                >
+                <div key={index} className="card card-hover">
                   <div className="flex items-center mb-4">
                     <div className="relative w-12 h-12 mr-4">
                       <img
@@ -268,7 +225,7 @@ function App() {
                   <p className="text-gray-600 dark:text-gray-300 italic">
                     "{testimonial.content}"
                   </p>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
@@ -278,49 +235,31 @@ function App() {
         <section className="section gradient-bg-primary text-white">
           <div className="container">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.2 }}
-              >
+              <div>
                 <div className="text-4xl font-bold mb-2">50K+</div>
                 <div className="text-blue-100">Resumes Analyzed</div>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.2, delay: 0.03 }}
-              >
+              </div>
+              <div>
                 <div className="text-4xl font-bold mb-2">95%</div>
                 <div className="text-blue-100">Accuracy Rate</div>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.2, delay: 0.06 }}
-              >
+              </div>
+              <div>
                 <div className="text-4xl font-bold mb-2">10K+</div>
                 <div className="text-blue-100">Happy Users</div>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.2, delay: 0.09 }}
-              >
+              </div>
+              <div>
                 <div className="text-4xl font-bold mb-2">24/7</div>
                 <div className="text-blue-100">Available</div>
-              </motion.div>
+              </div>
             </div>
           </div>
         </section>
 
         {/* About Section */}
-        <About />
+        <Suspense fallback={null}><About /></Suspense>
 
         {/* Contact Section */}
-        <Suspense fallback={<div>Loading...</div>}>
-          <Contact />
-        </Suspense>
+        <Suspense fallback={null}><Contact /></Suspense>
       </main>
 
       <Footer />

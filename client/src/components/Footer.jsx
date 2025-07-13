@@ -1,6 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Brain, Github, Twitter, Linkedin, Mail, Heart } from 'lucide-react';
+import { FaGithub, FaTwitter, FaLinkedin, FaEnvelope, FaHeart } from 'react-icons/fa';
 import Logo from './Logo';
 
 const Footer = () => {
@@ -34,8 +33,8 @@ const Footer = () => {
   };
 
   const socialLinks = [
-    { icon: <Linkedin className="w-5 h-5" />, href: 'https://www.linkedin.com/in/solanki-dhruvil-819168296/', label: 'LinkedIn' },
-    { icon: <Mail className="w-5 h-5" />, href: 'mailto:xyzdeveloper10@gmail.com', label: 'Email' }
+    { icon: <FaLinkedin className="w-5 h-5" />, href: 'https://www.linkedin.com/in/solanki-dhruvil-819168296/', label: 'LinkedIn' },
+    { icon: <FaEnvelope className="w-5 h-5" />, href: 'mailto:xyzdeveloper10@gmail.com', label: 'Email' }
   ];
 
   return (
@@ -45,36 +44,31 @@ const Footer = () => {
         <div className="mb-12">
           {/* Brand Section - full width */}
           <div className="w-full mb-10">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+            <div
               className="flex items-center space-x-4 mb-6"
             >
-              <Logo usePng={true} pngSrc="/logo.webp" />
+              <Logo />
               <div>
                 <h3 className="text-2xl font-bold text-white">Resume Analyzer</h3>
                 <p className="text-secondary-400 text-base">AI-Powered Analysis</p>
               </div>
-            </motion.div>
+            </div>
             <p className="text-secondary-400 mb-6 leading-relaxed">
               Transform your career with AI-powered resume analysis. Get instant feedback, 
               optimization suggestions, and stand out in today's competitive job market.
             </p>
             <div className="flex space-x-4">
               {socialLinks.map((social, index) => (
-                <motion.a
+                <a
                   key={index}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
                   className="w-10 h-10 bg-secondary-800 dark:bg-secondary-700 rounded-lg flex items-center justify-center text-secondary-400 hover:text-white hover:bg-primary-600 transition-all duration-200"
                   aria-label={social.label}
                 >
                   {social.icon}
-                </motion.a>
+                </a>
               ))}
             </div>
           </div>
@@ -82,10 +76,8 @@ const Footer = () => {
           {/* Footer Links Row */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {/* Product Links */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
+            <div
+              className="initial:opacity-0 initial:y-20 whileInView:opacity-1 whileInView:y-0 transition-all duration-0.6"
             >
               <h4 className="font-semibold text-white mb-4">Product</h4>
               <ul className="space-y-3">
@@ -100,12 +92,10 @@ const Footer = () => {
                   </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
             {/* Company Links */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+            <div
+              className="initial:opacity-0 initial:y-20 whileInView:opacity-1 whileInView:y-0 transition-all duration-0.6"
             >
               <h4 className="font-semibold text-white mb-4">Company</h4>
               <ul className="space-y-3">
@@ -120,12 +110,10 @@ const Footer = () => {
                   </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
             {/* Support Links */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
+            <div
+              className="initial:opacity-0 initial:y-20 whileInView:opacity-1 whileInView:y-0 transition-all duration-0.6"
             >
               <h4 className="font-semibold text-white mb-4">Support</h4>
               <ul className="space-y-3">
@@ -140,12 +128,10 @@ const Footer = () => {
                   </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
             {/* Legal Links */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+            <div
+              className="initial:opacity-0 initial:y-20 whileInView:opacity-1 whileInView:y-0 transition-all duration-0.6"
             >
               <h4 className="font-semibold text-white mb-4">Legal</h4>
               <ul className="space-y-3">
@@ -160,15 +146,12 @@ const Footer = () => {
                   </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
           </div>
         </div>
 
         {/* Newsletter Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
+        <div
           className="bg-gradient-to-r from-primary-600 to-primary-700 rounded-2xl p-8 mb-12"
         >
           <div className="text-center">
@@ -182,22 +165,17 @@ const Footer = () => {
                 placeholder="Enter your email"
                 className="flex-1 px-4 py-3 rounded-lg border-0 focus:ring-2 focus:ring-white focus:ring-opacity-50 text-secondary-900"
               />
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <button
                 className="px-6 py-3 bg-white text-primary-600 font-semibold rounded-lg hover:bg-primary-50 transition-colors duration-200"
               >
                 Subscribe
-              </motion.button>
+              </button>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Bottom Bar */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
+        <div
           className="border-t border-secondary-800 pt-8"
         >
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
@@ -205,7 +183,7 @@ const Footer = () => {
               <span>© {currentYear} Resume Analyzer. All rights reserved.</span>
               <span>•</span>
               <span>Made with</span>
-              <Heart className="w-4 h-4 text-error-500 fill-current" />
+              <FaHeart className="w-4 h-4 text-error-500 fill-current" />
               <span>for job seekers</span>
             </div>
             <div className="flex items-center space-x-6 text-secondary-400 text-sm">
@@ -217,7 +195,7 @@ const Footer = () => {
           <div className="mt-4 text-center text-secondary-400 text-sm">
             Developed by <span className="font-semibold text-white">Dhruvil Solanki</span>
           </div>
-        </motion.div>
+        </div>
       </div>
     </footer>
   );

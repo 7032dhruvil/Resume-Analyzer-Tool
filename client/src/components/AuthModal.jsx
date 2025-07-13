@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Mail, Lock, User, Eye, EyeOff, Github, AlertCircle } from 'lucide-react';
+import { FaTimes, FaEnvelope, FaLock, FaUser, FaEye, FaEyeSlash, FaGithub, FaExclamationCircle } from 'react-icons/fa';
 
 const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
   const [isLogin, setIsLogin] = useState(true);
@@ -122,9 +122,10 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 40 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
           className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
           onClick={onClose}
         >
@@ -132,8 +133,11 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-white dark:bg-secondary-800 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden"
+            className="bg-white dark:bg-secondary-800 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden focus:outline-none max-h-screen overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
+            tabIndex={-1}
+            aria-modal="true"
+            role="dialog"
           >
             {/* Header */}
             <div className="relative p-6 border-b border-secondary-200 dark:border-secondary-700">
@@ -141,7 +145,7 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
                 onClick={onClose}
                 className="absolute top-4 right-4 p-2 rounded-lg hover:bg-secondary-100 dark:hover:bg-secondary-700 transition-colors duration-200"
               >
-                <X className="w-5 h-5 text-secondary-500 dark:text-secondary-400" />
+                <FaTimes className="w-5 h-5 text-secondary-500 dark:text-secondary-400" />
               </button>
               <h2 className="text-2xl font-bold text-secondary-900 dark:text-white text-center">
                 {isLogin ? 'Welcome Back' : 'Create Account'}
@@ -159,23 +163,32 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
                     <label className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
                       Full Name
                     </label>
-                    <div className="relative">
-                      <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-secondary-400" />
-                      <input
+                    <div className="relative group">
+                      <FaUser className="input-icon pointer-events-none absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-secondary-400 group-focus-within:text-primary-500 transition-colors duration-200" />
+                      <motion.input
                         type="text"
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
                         className={`input-field pl-10 ${errors.name ? 'border-error-500 focus:ring-error-500' : ''}`}
                         placeholder="Enter your full name"
+                        whileFocus={{ scale: 1.03, borderColor: '#3b82f6' }}
+                        aria-label="Full Name"
                       />
                     </div>
-                    {errors.name && (
-                      <p className="text-error-600 dark:text-error-400 text-sm mt-1 flex items-center">
-                        <AlertCircle className="w-4 h-4 mr-1" />
-                        {errors.name}
-                      </p>
-                    )}
+                    <AnimatePresence>
+                      {errors.name && (
+                        <motion.p
+                          initial={{ opacity: 0, y: -5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -5 }}
+                          className="text-error-600 dark:text-error-400 text-sm mt-1 flex items-center"
+                        >
+                          <FaExclamationCircle className="w-4 h-4 mr-1" />
+                          {errors.name}
+                        </motion.p>
+                      )}
+                    </AnimatePresence>
                   </div>
                 )}
 
@@ -183,53 +196,72 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
                   <label className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
                     Email Address
                   </label>
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-secondary-400" />
-                    <input
+                  <div className="relative group">
+                    <FaEnvelope className="input-icon pointer-events-none absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-secondary-400 group-focus-within:text-primary-500 transition-colors duration-200" />
+                    <motion.input
                       type="email"
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
                       className={`input-field pl-10 ${errors.email ? 'border-error-500 focus:ring-error-500' : ''}`}
                       placeholder="Enter your email"
+                      whileFocus={{ scale: 1.03, borderColor: '#3b82f6' }}
+                      aria-label="Email Address"
                     />
                   </div>
-                  {errors.email && (
-                    <p className="text-error-600 dark:text-error-400 text-sm mt-1 flex items-center">
-                      <AlertCircle className="w-4 h-4 mr-1" />
-                      {errors.email}
-                    </p>
-                  )}
+                  <AnimatePresence>
+                    {errors.email && (
+                      <motion.p
+                        initial={{ opacity: 0, y: -5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -5 }}
+                        className="text-error-600 dark:text-error-400 text-sm mt-1 flex items-center"
+                      >
+                        <FaExclamationCircle className="w-4 h-4 mr-1" />
+                        {errors.email}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
                     Password
                   </label>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-secondary-400" />
-                    <input
+                  <div className="relative group">
+                    <FaLock className="input-icon pointer-events-none absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-secondary-400 group-focus-within:text-primary-500 transition-colors duration-200" />
+                    <motion.input
                       type={showPassword ? 'text' : 'password'}
                       name="password"
                       value={formData.password}
                       onChange={handleInputChange}
                       className={`input-field pl-10 pr-10 ${errors.password ? 'border-error-500 focus:ring-error-500' : ''}`}
                       placeholder="Enter your password"
+                      whileFocus={{ scale: 1.03, borderColor: '#3b82f6' }}
+                      aria-label="Password"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-3 top-1/2 transform -translate-y-1/2 text-secondary-400 hover:text-secondary-600 dark:hover:text-secondary-300"
+                      aria-label={showPassword ? 'Hide password' : 'Show password'}
                     >
-                      {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                      {showPassword ? <FaEyeSlash className="w-5 h-5" /> : <FaEye className="w-5 h-5" />}
                     </button>
                   </div>
-                  {errors.password && (
-                    <p className="text-error-600 dark:text-error-400 text-sm mt-1 flex items-center">
-                      <AlertCircle className="w-4 h-4 mr-1" />
-                      {errors.password}
-                    </p>
-                  )}
+                  <AnimatePresence>
+                    {errors.password && (
+                      <motion.p
+                        initial={{ opacity: 0, y: -5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -5 }}
+                        className="text-error-600 dark:text-error-400 text-sm mt-1 flex items-center"
+                      >
+                        <FaExclamationCircle className="w-4 h-4 mr-1" />
+                        {errors.password}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
                 </div>
 
                 {!isLogin && (
@@ -237,23 +269,32 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
                     <label className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
                       Confirm Password
                     </label>
-                    <div className="relative">
-                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-secondary-400" />
-                      <input
+                    <div className="relative group">
+                      <FaLock className="input-icon pointer-events-none absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-secondary-400 group-focus-within:text-primary-500 transition-colors duration-200" />
+                      <motion.input
                         type={showPassword ? 'text' : 'password'}
                         name="confirmPassword"
                         value={formData.confirmPassword}
                         onChange={handleInputChange}
                         className={`input-field pl-10 ${errors.confirmPassword ? 'border-error-500 focus:ring-error-500' : ''}`}
                         placeholder="Confirm your password"
+                        whileFocus={{ scale: 1.03, borderColor: '#3b82f6' }}
+                        aria-label="Confirm Password"
                       />
                     </div>
-                    {errors.confirmPassword && (
-                      <p className="text-error-600 dark:text-error-400 text-sm mt-1 flex items-center">
-                        <AlertCircle className="w-4 h-4 mr-1" />
-                        {errors.confirmPassword}
-                      </p>
-                    )}
+                    <AnimatePresence>
+                      {errors.confirmPassword && (
+                        <motion.p
+                          initial={{ opacity: 0, y: -5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -5 }}
+                          className="text-error-600 dark:text-error-400 text-sm mt-1 flex items-center"
+                        >
+                          <FaExclamationCircle className="w-4 h-4 mr-1" />
+                          {errors.confirmPassword}
+                        </motion.p>
+                      )}
+                    </AnimatePresence>
                   </div>
                 )}
 
@@ -297,27 +338,28 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
               {/* Social Login */}
               <div className="grid grid-cols-2 gap-3">
                 <motion.button
-                  whileHover={{ scale: 1.02 }}
+                  whileHover={{ scale: 1.05, backgroundColor: '#24292f', color: '#fff' }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => handleSocialLogin('github')}
                   disabled={socialLoading}
-                  className="flex items-center justify-center space-x-2 px-4 py-3 border border-secondary-300 dark:border-secondary-600 rounded-lg hover:bg-secondary-50 dark:hover:bg-secondary-700 transition-colors duration-200 disabled:opacity-50"
+                  className="flex items-center justify-center space-x-2 px-4 py-3 border border-secondary-300 dark:border-secondary-600 rounded-lg bg-white dark:bg-secondary-800 hover:bg-secondary-100 dark:hover:bg-secondary-700 transition-colors duration-200 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  aria-label="Sign in with GitHub"
                 >
                   {socialLoading === 'github' ? (
                     <div className="w-5 h-5 border-2 border-secondary-400 border-t-transparent rounded-full animate-spin"></div>
                   ) : (
-                    <Github className="w-5 h-5" />
+                    <FaGithub className="w-5 h-5" />
                   )}
-                  <span className="text-sm font-medium text-secondary-700 dark:text-secondary-300">
-                    {socialLoading === 'github' ? 'Connecting...' : 'GitHub'}
-                  </span>
+                  <span className="text-sm font-medium">{socialLoading === 'github' ? 'Connecting...' : 'GitHub'}</span>
                 </motion.button>
                 <motion.button
-                  whileHover={{ scale: 1.02 }}
+                  whileHover={{ scale: 1.05, backgroundColor: '#fff', color: '#4285F4' }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => handleSocialLogin('google')}
                   disabled={socialLoading}
-                  className="flex items-center justify-center space-x-2 px-4 py-3 border border-secondary-300 dark:border-secondary-600 rounded-lg hover:bg-secondary-50 dark:hover:bg-secondary-700 transition-colors duration-200 disabled:opacity-50"
+                  className="flex items-center justify-center space-x-2 px-4 py-3 border border-secondary-300 dark:border-secondary-600 rounded-lg bg-white dark:bg-secondary-800 hover:bg-blue-50 dark:hover:bg-secondary-700 transition-colors duration-200 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  style={{ color: socialLoading === 'google' ? undefined : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? '#fff' : '#4285F4') }}
+                  aria-label="Sign in with Google"
                 >
                   {socialLoading === 'google' ? (
                     <div className="w-5 h-5 border-2 border-secondary-400 border-t-transparent rounded-full animate-spin"></div>
@@ -329,9 +371,7 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
                       <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                     </svg>
                   )}
-                  <span className="text-sm font-medium text-secondary-700 dark:text-secondary-300">
-                    {socialLoading === 'google' ? 'Connecting...' : 'Google'}
-                  </span>
+                  <span className="text-sm font-medium dark:text-white text-[#4285F4]">{socialLoading === 'google' ? 'Connecting...' : 'Google'}</span>
                 </motion.button>
               </div>
 

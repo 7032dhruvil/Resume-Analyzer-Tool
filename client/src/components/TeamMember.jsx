@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Linkedin, Github, Mail, User } from 'lucide-react';
+import { FaLinkedin, FaGithub, FaEnvelope, FaUser } from 'react-icons/fa';
 
 const TeamMember = ({ member }) => {
   const [imageError, setImageError] = useState(false);
@@ -22,13 +21,7 @@ const TeamMember = ({ member }) => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      whileHover={{ y: -5 }}
-      className="card text-center group relative overflow-hidden"
-    >
+    <div className="card text-center group relative overflow-hidden">
       {/* Image Container */}
       <div className="relative mb-6">
         <div className="w-32 h-32 mx-auto relative">
@@ -42,7 +35,7 @@ const TeamMember = ({ member }) => {
           {/* Error State */}
           {imageError && (
             <div className="absolute inset-0 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center">
-              <User className="w-12 h-12 text-gray-400" />
+              <FaUser className="w-12 h-12 text-gray-400" />
             </div>
           )}
           
@@ -86,49 +79,43 @@ const TeamMember = ({ member }) => {
       {/* Social Links */}
       <div className="flex justify-center space-x-3 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
         {member.linkedin && member.linkedin !== "#" && (
-          <motion.a
+          <a
             href={member.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
             className="p-2 text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 transition-colors duration-200"
             title="LinkedIn"
           >
-            <Linkedin className="w-5 h-5" />
-          </motion.a>
+            <FaLinkedin className="w-5 h-5" />
+          </a>
         )}
         
         {member.github && member.github !== "#" && (
-          <motion.a
+          <a
             href={member.github}
             target="_blank"
             rel="noopener noreferrer"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
             className="p-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors duration-200"
             title="GitHub"
           >
-            <Github className="w-5 h-5" />
-          </motion.a>
+            <FaGithub className="w-5 h-5" />
+          </a>
         )}
         
         {member.email && (
-          <motion.a
+          <a
             href={`mailto:${member.email}`}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
             className="p-2 text-gray-600 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400 transition-colors duration-200"
             title="Email"
           >
-            <Mail className="w-5 h-5" />
-          </motion.a>
+            <FaEnvelope className="w-5 h-5" />
+          </a>
         )}
       </div>
 
       {/* Hover Effect Overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-primary-600/0 to-primary-600/0 group-hover:from-primary-600/5 group-hover:to-primary-600/10 transition-all duration-300 rounded-xl pointer-events-none" />
-    </motion.div>
+    </div>
   );
 };
 

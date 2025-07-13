@@ -1,20 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  X, 
-  User, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Calendar, 
-  Edit3, 
-  Save, 
-  Camera, 
-  Shield, 
-  Settings, 
-  LogOut,
-  CheckCircle
-} from 'lucide-react';
+import { FaTimes, FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCalendarAlt, FaEdit, FaSave, FaCamera, FaShieldAlt, FaCog, FaSignOutAlt, FaCheckCircle } from 'react-icons/fa';
 
 const UserAccountModal = ({ isOpen, onClose, user, onLogout, onUpdateProfile }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -70,9 +56,9 @@ const UserAccountModal = ({ isOpen, onClose, user, onLogout, onUpdateProfile }) 
   };
 
   const stats = [
-    { label: 'Resumes Analyzed', value: '12', icon: <Shield className="w-4 h-4" /> },
-    { label: 'Account Age', value: '3 months', icon: <Calendar className="w-4 h-4" /> },
-    { label: 'Last Login', value: 'Today', icon: <Settings className="w-4 h-4" /> }
+    { label: 'Resumes Analyzed', value: '12', icon: <FaShieldAlt className="w-4 h-4" /> },
+    { label: 'Account Age', value: '3 months', icon: <FaCalendarAlt className="w-4 h-4" /> },
+    { label: 'Last Login', value: 'Today', icon: <FaCog className="w-4 h-4" /> }
   ];
 
   return (
@@ -98,7 +84,7 @@ const UserAccountModal = ({ isOpen, onClose, user, onLogout, onUpdateProfile }) 
                 onClick={onClose}
                 className="absolute top-4 right-4 p-2 rounded-lg hover:bg-secondary-100 dark:hover:bg-secondary-700 transition-colors duration-200"
               >
-                <X className="w-5 h-5 text-secondary-500 dark:text-secondary-400" />
+                <FaTimes className="w-5 h-5 text-secondary-500 dark:text-secondary-400" />
               </button>
               <h2 className="text-2xl font-bold text-secondary-900 dark:text-white text-center">
                 My Account
@@ -115,7 +101,7 @@ const UserAccountModal = ({ isOpen, onClose, user, onLogout, onUpdateProfile }) 
                 animate={{ opacity: 1, y: 0 }}
                 className="mx-6 mt-4 p-4 bg-success-50 dark:bg-success-900/20 border border-success-200 dark:border-success-800 rounded-lg flex items-center space-x-3"
               >
-                <CheckCircle className="w-5 h-5 text-success-600 dark:text-success-400" />
+                <FaCheckCircle className="w-5 h-5 text-success-600 dark:text-success-400" />
                 <span className="text-success-700 dark:text-success-300 font-medium">
                   Profile updated successfully!
                 </span>
@@ -137,7 +123,7 @@ const UserAccountModal = ({ isOpen, onClose, user, onLogout, onUpdateProfile }) 
                       whileTap={{ scale: 0.95 }}
                       className="absolute bottom-0 right-0 w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center text-white hover:bg-primary-700 transition-colors duration-200"
                     >
-                      <Camera className="w-4 h-4" />
+                      <FaCamera className="w-4 h-4" />
                     </motion.button>
                   )}
                 </div>
@@ -185,7 +171,7 @@ const UserAccountModal = ({ isOpen, onClose, user, onLogout, onUpdateProfile }) 
                       onClick={() => setIsEditing(true)}
                       className="flex items-center space-x-2 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors duration-200"
                     >
-                      <Edit3 className="w-4 h-4" />
+                      <FaEdit className="w-4 h-4" />
                       <span>Edit Profile</span>
                     </motion.button>
                   ) : (
@@ -212,7 +198,7 @@ const UserAccountModal = ({ isOpen, onClose, user, onLogout, onUpdateProfile }) 
                           </>
                         ) : (
                           <>
-                            <Save className="w-4 h-4" />
+                            <FaSave className="w-4 h-4" />
                             <span>Save Changes</span>
                           </>
                         )}
@@ -227,7 +213,7 @@ const UserAccountModal = ({ isOpen, onClose, user, onLogout, onUpdateProfile }) 
                       Full Name
                     </label>
                     <div className="relative">
-                      <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-secondary-400" />
+                      <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-secondary-400" />
                       <input
                         type="text"
                         name="name"
@@ -244,7 +230,7 @@ const UserAccountModal = ({ isOpen, onClose, user, onLogout, onUpdateProfile }) 
                       Email Address
                     </label>
                     <div className="relative">
-                      <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-secondary-400" />
+                      <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-secondary-400" />
                       <input
                         type="email"
                         name="email"
@@ -261,7 +247,7 @@ const UserAccountModal = ({ isOpen, onClose, user, onLogout, onUpdateProfile }) 
                       Phone Number
                     </label>
                     <div className="relative">
-                      <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-secondary-400" />
+                      <FaPhone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-secondary-400" />
                       <input
                         type="tel"
                         name="phone"
@@ -279,7 +265,7 @@ const UserAccountModal = ({ isOpen, onClose, user, onLogout, onUpdateProfile }) 
                       Location
                     </label>
                     <div className="relative">
-                      <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-secondary-400" />
+                      <FaMapMarkerAlt className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-secondary-400" />
                       <input
                         type="text"
                         name="location"
@@ -321,7 +307,7 @@ const UserAccountModal = ({ isOpen, onClose, user, onLogout, onUpdateProfile }) 
                     className="w-full flex items-center justify-between p-4 bg-secondary-50 dark:bg-secondary-700 rounded-lg hover:bg-secondary-100 dark:hover:bg-secondary-600 transition-colors duration-200"
                   >
                     <div className="flex items-center space-x-3">
-                      <Settings className="w-5 h-5 text-secondary-600 dark:text-secondary-400" />
+                      <FaCog className="w-5 h-5 text-secondary-600 dark:text-secondary-400" />
                       <span className="text-secondary-700 dark:text-secondary-300">Account Settings</span>
                     </div>
                     <span className="text-secondary-400">→</span>
@@ -333,7 +319,7 @@ const UserAccountModal = ({ isOpen, onClose, user, onLogout, onUpdateProfile }) 
                     className="w-full flex items-center justify-between p-4 bg-secondary-50 dark:bg-secondary-700 rounded-lg hover:bg-secondary-100 dark:hover:bg-secondary-600 transition-colors duration-200"
                   >
                     <div className="flex items-center space-x-3">
-                      <Shield className="w-5 h-5 text-secondary-600 dark:text-secondary-400" />
+                      <FaShieldAlt className="w-5 h-5 text-secondary-600 dark:text-secondary-400" />
                       <span className="text-secondary-700 dark:text-secondary-300">Privacy & Security</span>
                     </div>
                     <span className="text-secondary-400">→</span>
@@ -346,7 +332,7 @@ const UserAccountModal = ({ isOpen, onClose, user, onLogout, onUpdateProfile }) 
                     className="w-full flex items-center justify-between p-4 bg-error-50 dark:bg-error-900/20 border border-error-200 dark:border-error-800 rounded-lg hover:bg-error-100 dark:hover:bg-error-900/30 transition-colors duration-200"
                   >
                     <div className="flex items-center space-x-3">
-                      <LogOut className="w-5 h-5 text-error-600 dark:text-error-400" />
+                      <FaSignOutAlt className="w-5 h-5 text-error-600 dark:text-error-400" />
                       <span className="text-error-700 dark:text-error-300">Sign Out</span>
                     </div>
                     <span className="text-error-400">→</span>

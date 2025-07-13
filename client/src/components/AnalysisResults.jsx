@@ -1,16 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { 
-  TrendingUp, 
-  CheckCircle, 
-  AlertCircle, 
-  Lightbulb, 
-  RefreshCw,
-  Target,
-  Award,
-  Clock,
-  Users
-} from 'lucide-react';
+import { FaChartLine, FaCheckCircle, FaExclamationCircle, FaLightbulb, FaSyncAlt, FaBullseye, FaAward, FaClock, FaUsers } from 'react-icons/fa';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
 
 const AnalysisResults = ({ result, fileName = "Resume", onReset }) => {
@@ -55,10 +44,10 @@ const AnalysisResults = ({ result, fileName = "Resume", onReset }) => {
   ];
 
   const tabs = [
-    { id: 'overview', label: 'Overview', icon: TrendingUp },
-    { id: 'sections', label: 'Sections', icon: Target },
-    { id: 'feedback', label: 'Feedback', icon: Lightbulb },
-    { id: 'recommendations', label: 'Recommendations', icon: Award }
+    { id: 'overview', label: 'Overview', icon: FaChartLine },
+    { id: 'sections', label: 'Sections', icon: FaBullseye },
+    { id: 'feedback', label: 'Feedback', icon: FaLightbulb },
+    { id: 'recommendations', label: 'Recommendations', icon: FaAward }
   ];
 
   // Custom label for pie chart segments
@@ -85,11 +74,7 @@ const AnalysisResults = ({ result, fileName = "Resume", onReset }) => {
   return (
     <div className="w-full px-2 sm:px-4 md:px-8 py-4">
       {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-white dark:bg-secondary-900 rounded-2xl shadow-lg mb-6 p-4 sm:p-6"
-      >
+      <div className="bg-white dark:bg-secondary-900 rounded-2xl shadow-lg mb-6 p-4 sm:p-6">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
@@ -101,24 +86,19 @@ const AnalysisResults = ({ result, fileName = "Resume", onReset }) => {
           </div>
           
           <div className="flex items-center space-x-4 mt-4 md:mt-0">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+            <button
               onClick={onReset}
               className="btn-secondary flex items-center space-x-2"
             >
-              <RefreshCw className="w-4 h-4" />
+              <FaSyncAlt className="w-4 h-4" />
               <span>New Analysis</span>
-            </motion.button>
+            </button>
           </div>
         </div>
-      </motion.div>
+      </div>
 
       {/* Overall Score */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
+      <div
         className="bg-white dark:bg-secondary-900 rounded-2xl shadow-lg mb-6 p-4 sm:p-6"
       >
         <div className="flex flex-col items-center text-center">
@@ -134,11 +114,11 @@ const AnalysisResults = ({ result, fileName = "Resume", onReset }) => {
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-2 mb-4 text-sm text-gray-600 dark:text-gray-300">
             <div className="flex items-center space-x-1">
-              <Clock className="w-4 h-4" />
+              <FaClock className="w-4 h-4" />
               <span>{analysis.experienceLevel || "Not specified"}</span>
             </div>
             <div className="flex items-center space-x-1">
-              <Users className="w-4 h-4" />
+              <FaUsers className="w-4 h-4" />
               <span>{analysis.industryFit || "General"}</span>
             </div>
           </div>
@@ -146,7 +126,7 @@ const AnalysisResults = ({ result, fileName = "Resume", onReset }) => {
             {analysis.summary || "Analysis summary not available."}
           </p>
         </div>
-      </motion.div>
+      </div>
 
       {/* Tabs */}
       <div className="bg-white dark:bg-secondary-900 rounded-2xl shadow-lg mb-6 p-4 sm:p-6">
@@ -175,9 +155,7 @@ const AnalysisResults = ({ result, fileName = "Resume", onReset }) => {
         {/* Tab Content */}
         <div className="min-h-[400px]">
           {activeTab === 'overview' && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+            <div
               className="grid grid-cols-1 md:grid-cols-2 gap-8"
             >
               {/* Chart */}
@@ -234,13 +212,11 @@ const AnalysisResults = ({ result, fileName = "Resume", onReset }) => {
                   </ResponsiveContainer>
                 </div>
               </div>
-            </motion.div>
+            </div>
           )}
 
           {activeTab === 'sections' && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+            <div
               className="grid md:grid-cols-2 gap-6"
             >
               {Object.entries(analysis.sections || {}).map(([key, section]) => (
@@ -258,19 +234,17 @@ const AnalysisResults = ({ result, fileName = "Resume", onReset }) => {
                   </p>
                 </div>
               ))}
-            </motion.div>
+            </div>
           )}
 
           {activeTab === 'feedback' && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+            <div
               className="space-y-6"
             >
               {/* Strengths */}
               <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-6 border border-green-200 dark:border-green-800">
                 <div className="flex items-center space-x-3 mb-4">
-                  <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
+                  <FaCheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                     Strengths
                   </h3>
@@ -288,7 +262,7 @@ const AnalysisResults = ({ result, fileName = "Resume", onReset }) => {
               {/* Areas for Improvement */}
               <div className="bg-yellow-50 dark:bg-yellow-900/20 rounded-lg p-6 border border-yellow-200 dark:border-yellow-800">
                 <div className="flex items-center space-x-3 mb-4">
-                  <AlertCircle className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
+                  <FaExclamationCircle className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                     Areas for Improvement
                   </h3>
@@ -307,7 +281,7 @@ const AnalysisResults = ({ result, fileName = "Resume", onReset }) => {
               {(analysis.missingElements || []).length > 0 && (
                 <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 border border-blue-200 dark:border-blue-800">
                   <div className="flex items-center space-x-3 mb-4">
-                    <Lightbulb className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                    <FaLightbulb className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                       Missing Elements
                     </h3>
@@ -322,19 +296,17 @@ const AnalysisResults = ({ result, fileName = "Resume", onReset }) => {
                   </ul>
                 </div>
               )}
-            </motion.div>
+            </div>
           )}
 
           {activeTab === 'recommendations' && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+            <div
               className="space-y-6"
             >
               {/* Suggestions */}
               <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 border border-blue-200 dark:border-blue-800">
                 <div className="flex items-center space-x-3 mb-4">
-                  <Lightbulb className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                  <FaLightbulb className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                     Suggestions for Improvement
                   </h3>
@@ -352,7 +324,7 @@ const AnalysisResults = ({ result, fileName = "Resume", onReset }) => {
               {/* Recommendations */}
               <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-6 border border-green-200 dark:border-green-800">
                 <div className="flex items-center space-x-3 mb-4">
-                  <Award className="w-6 h-6 text-green-600 dark:text-green-400" />
+                  <FaAward className="w-6 h-6 text-green-600 dark:text-green-400" />
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                     Professional Recommendations
                   </h3>
@@ -385,7 +357,7 @@ const AnalysisResults = ({ result, fileName = "Resume", onReset }) => {
                   </div>
                 </div>
               )}
-            </motion.div>
+            </div>
           )}
         </div>
       </div>

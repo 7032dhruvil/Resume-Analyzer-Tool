@@ -10,6 +10,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const path = require('path');
 require('dotenv').config();
+const mongoose = require('mongoose');
 
 const app = express();
 const PORT = process.env.PORT || 5002;
@@ -33,7 +34,7 @@ app.use(express.json({ limit: '10mb' }));
 
 // Serve static files from the React app in production
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/build'), {
+  app.use(express.static(path.join(__dirname, '../client/dist'), {
     maxAge: '1y',
     etag: false
   }));
@@ -83,6 +84,22 @@ const upload = multer({
 const users = [];
 const JWT_SECRET = process.env.JWT_SECRET || 'supersecretkey';
 
+// Connect to MongoDB
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/resume_analyzer', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+const userSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
+  provider: { type: String, default: 'local' },
+  providerId: { type: String },
+});
+const User = mongoose.model('User', userSchema);
+
 // Middleware to authenticate JWT
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
@@ -101,35 +118,54 @@ app.post('/api/auth/register', async (req, res) => {
   if (!email || !password || !name) {
     return res.status(400).json({ error: 'Name, email, and password are required' });
   }
-  if (users.find(u => u.email === email)) {
-    return res.status(409).json({ error: 'User already exists' });
+  try {
+    const existing = await User.findOne({ email });
+    if (existing) {
+      return res.status(409).json({ error: 'User already exists' });
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = await User.create({ email, name, password: hashedPassword });
+    res.status(201).json({ message: 'User registered successfully' });
+  } catch (err) {
+    res.status(500).json({ error: 'Registration failed' });
   }
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const user = { id: users.length + 1, email, name, password: hashedPassword };
-  users.push(user);
-  res.status(201).json({ message: 'User registered successfully' });
 });
 
 // Login endpoint
 app.post('/api/auth/login', async (req, res) => {
   const { email, password } = req.body;
-  const user = users.find(u => u.email === email);
-  if (!user) {
-    return res.status(401).json({ error: 'Invalid email or password' });
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+    const valid = await bcrypt.compare(password, user.password);
+    if (!valid) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+    const token = jwt.sign({ id: user._id, email: user.email, name: user.name }, JWT_SECRET, { expiresIn: '7d' });
+    res.json({ token, user: { id: user._id, email: user.email, name: user.name } });
+  } catch (err) {
+    res.status(500).json({ error: 'Login failed' });
   }
-  const valid = await bcrypt.compare(password, user.password);
-  if (!valid) {
-    return res.status(401).json({ error: 'Invalid email or password' });
-  }
-  const token = jwt.sign({ id: user.id, email: user.email, name: user.name }, JWT_SECRET, { expiresIn: '7d' });
-  res.json({ token, user: { id: user.id, email: user.email, name: user.name } });
 });
 
 // Get current user endpoint
-app.get('/api/auth/me', authenticateToken, (req, res) => {
-  const user = users.find(u => u.id === req.user.id);
-  if (!user) return res.status(404).json({ error: 'User not found' });
-  res.json({ id: user.id, email: user.email, name: user.name });
+app.get('/api/auth/me', authenticateToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    res.json({
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      createdAt: user.createdAt,
+      provider: user.provider,
+      providerId: user.providerId
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch user' });
+  }
 });
 
 // File parsing functions
@@ -352,7 +388,7 @@ app.get('/api/test', (req, res) => {
   });
 });
 
-app.post('/api/analyze-resume', upload.single('resume'), async (req, res) => {
+app.post('/api/analyze-resume', authenticateToken, upload.single('resume'), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'No file uploaded' });
@@ -397,7 +433,7 @@ app.use((error, req, res, next) => {
 // Handle React routing, return all requests to React app in production
 if (process.env.NODE_ENV === 'production') {
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+    res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
   });
 }
 
@@ -405,6 +441,6 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📱 Environment: ${process.env.NODE_ENV || 'development'}`);
   if (process.env.NODE_ENV === 'production') {
-    console.log(`🌐 Frontend served from: ${path.join(__dirname, '../client/build')}`);
+    console.log(`🌐 Frontend served from: ${path.join(__dirname, '../client/dist')}`);
   }
 }); 
