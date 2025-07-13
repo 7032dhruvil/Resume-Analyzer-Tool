@@ -1,3 +1,6 @@
+// Resume Analyzer Backend API
+// Deployment: Push to GitHub, connect to Render.com, set env vars (MONGODB_URI, JWT_SECRET, NODE_ENV)
+
 const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
@@ -8,23 +11,22 @@ const rateLimit = require('express-rate-limit');
 const compression = require('compression');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const path = require('path');
 require('dotenv').config();
 const mongoose = require('mongoose');
 
 const app = express();
 const PORT = process.env.PORT || 5002;
 
-// Trust proxy for rate limiting
-app.set('trust proxy', 1);
-
-// Middleware
+// Security & performance middleware
 app.use(helmet());
 app.use(compression());
+
+// CORS: allow localhost (dev) and your Vercel frontend (prod)
 app.use(cors({
   origin: [
     'http://localhost:5173',
-    'http://localhost:3000'
+    'http://localhost:3000',
+    'https://your-frontend.vercel.app' // <-- replace with your actual Vercel domain
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -32,64 +34,23 @@ app.use(cors({
 }));
 app.use(express.json({ limit: '10mb' }));
 
-// Serve static files from the React app in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/dist'), {
-    maxAge: '1y',
-    etag: false
-  }));
-}
-
 // Rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-  message: {
-    error: 'Too many requests from this IP, please try again later.'
-  }
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many requests from this IP, please try again later.' }
 });
 app.use(limiter);
 
-// Request logging middleware
-app.use((req, res, next) => {
-  next();
-});
-
-// Configure multer for file uploads
-const upload = multer({
-  storage: multer.memoryStorage(),
-  limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB limit
-  },
-  fileFilter: (req, file, cb) => {
-    // Accept multiple file types
-    const allowedMimeTypes = [
-      'application/pdf',
-      'application/msword',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      'text/plain'
-    ];
-    
-    if (allowedMimeTypes.includes(file.mimetype)) {
-      cb(null, true);
-    } else {
-      cb(new Error('Only PDF, DOC, DOCX, and TXT files are allowed'), false);
-    }
-  }
-});
-
-// In-memory user store (for demo)
-const users = [];
-const JWT_SECRET = process.env.JWT_SECRET || 'supersecretkey';
-
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/resume_analyzer', {
+// MongoDB connection
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
+// User model
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
@@ -100,7 +61,9 @@ const userSchema = new mongoose.Schema({
 });
 const User = mongoose.model('User', userSchema);
 
-// Middleware to authenticate JWT
+const JWT_SECRET = process.env.JWT_SECRET;
+
+// JWT auth middleware
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -112,7 +75,12 @@ function authenticateToken(req, res, next) {
   });
 }
 
-// Register endpoint
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'OK', message: 'Resume Analyzer API is running', time: new Date().toISOString() });
+});
+
+// Auth: Register
 app.post('/api/auth/register', async (req, res) => {
   const { email, password, name } = req.body;
   if (!email || !password || !name) {
@@ -131,7 +99,7 @@ app.post('/api/auth/register', async (req, res) => {
   }
 });
 
-// Login endpoint
+// Auth: Login
 app.post('/api/auth/login', async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -150,7 +118,7 @@ app.post('/api/auth/login', async (req, res) => {
   }
 });
 
-// Get current user endpoint
+// Auth: Get current user
 app.get('/api/auth/me', authenticateToken, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
@@ -168,63 +136,73 @@ app.get('/api/auth/me', authenticateToken, async (req, res) => {
   }
 });
 
-// File parsing functions
+// File upload and analysis
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    const allowedMimeTypes = [
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'text/plain'
+    ];
+    if (allowedMimeTypes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only PDF, DOC, DOCX, and TXT files are allowed'), false);
+    }
+  }
+});
+
+// Resume analysis endpoint (protected)
+app.post('/api/analyze-resume', authenticateToken, upload.single('resume'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+    const fileText = await parseFile(req.file);
+    if (!fileText || fileText.trim().length === 0) {
+      return res.status(400).json({ error: 'Could not extract text from file. Please ensure the file contains readable text.' });
+    }
+    const analysis = analyzeResumeWithMockAI(fileText);
+    res.json({
+      success: true,
+      analysis,
+      fileName: req.file.originalname,
+      fileSize: req.file.size,
+      fileType: req.file.mimetype
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to analyze resume', details: error.message });
+  }
+});
+
+// File parsing helpers
 async function parsePDF(buffer) {
-  try {
-    const pdfData = await pdfParse(buffer);
-    return pdfData.text;
-  } catch (error) {
-    throw new Error('Failed to parse PDF file');
-  }
+  try { return (await pdfParse(buffer)).text; } catch { throw new Error('Failed to parse PDF file'); }
 }
-
 async function parseDOCX(buffer) {
-  try {
-    const result = await mammoth.extractRawText({ buffer });
-    return result.value;
-  } catch (error) {
-    throw new Error('Failed to parse DOCX file');
-  }
+  try { return (await mammoth.extractRawText({ buffer })).value; } catch { throw new Error('Failed to parse DOCX file'); }
 }
-
 async function parseDOC(buffer) {
-  try {
-    // For .doc files, we'll try to extract text using mammoth
-    // Note: This might not work for all .doc files as they're older format
-    const result = await mammoth.extractRawText({ buffer });
-    return result.value;
-  } catch (error) {
-    throw new Error('Failed to parse DOC file. Please convert to DOCX or PDF format.');
-  }
+  try { return (await mammoth.extractRawText({ buffer })).value; } catch { throw new Error('Failed to parse DOC file. Please convert to DOCX or PDF format.'); }
 }
-
 async function parseTXT(buffer) {
-  try {
-    return buffer.toString('utf-8');
-  } catch (error) {
-    throw new Error('Failed to parse TXT file');
-  }
+  try { return buffer.toString('utf-8'); } catch { throw new Error('Failed to parse TXT file'); }
 }
-
-// Function to parse different file types
 async function parseFile(file) {
   const { mimetype, buffer } = file;
-  
   switch (mimetype) {
-    case 'application/pdf':
-      return await parsePDF(buffer);
-    case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-      return await parseDOCX(buffer);
-    case 'application/msword':
-      return await parseDOC(buffer);
-    case 'text/plain':
-      return await parseTXT(buffer);
-    default:
-      throw new Error('Unsupported file type');
+    case 'application/pdf': return await parsePDF(buffer);
+    case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document': return await parseDOCX(buffer);
+    case 'application/msword': return await parseDOC(buffer);
+    case 'text/plain': return await parseTXT(buffer);
+    default: throw new Error('Unsupported file type');
   }
 }
 
-// Mock AI Resume Analysis Function
+// Mock AI Resume Analysis (replace with real AI as needed)
 function analyzeResumeWithMockAI(pdfText) {
   // Extract key information from the resume text
   const text = pdfText.toLowerCase();
@@ -372,75 +350,13 @@ function analyzeResumeWithMockAI(pdfText) {
   };
 }
 
-// Routes
-app.get('/api/health', (req, res) => {
-  res.json({ 
-    status: 'OK', 
-    message: 'Resume Analyzer API is running with Mock AI',
-    supportedFormats: ['PDF', 'DOC', 'DOCX', 'TXT']
-  });
-});
-
-app.get('/api/test', (req, res) => {
-  res.json({ 
-    message: 'Test endpoint working',
-    timestamp: new Date().toISOString()
-  });
-});
-
-app.post('/api/analyze-resume', authenticateToken, upload.single('resume'), async (req, res) => {
-  try {
-    if (!req.file) {
-      return res.status(400).json({ error: 'No file uploaded' });
-    }
-
-    // Parse file based on its type
-    const fileText = await parseFile(req.file);
-
-    if (!fileText || fileText.trim().length === 0) {
-      return res.status(400).json({ error: 'Could not extract text from file. Please ensure the file contains readable text.' });
-    }
-
-    // Analyze resume using mock AI
-    const analysis = analyzeResumeWithMockAI(fileText);
-
-    const response = {
-      success: true,
-      analysis,
-      fileName: req.file.originalname,
-      fileSize: req.file.size,
-      fileType: req.file.mimetype
-    };
-    
-    res.json(response);
-
-  } catch (error) {
-    res.status(500).json({ 
-      error: 'Failed to analyze resume',
-      details: error.message 
-    });
-  }
-});
-
-// Error handling middleware
+// Error handler
 app.use((error, req, res, next) => {
-  res.status(500).json({ 
-    error: 'Internal server error',
-    message: error.message 
-  });
+  res.status(500).json({ error: 'Internal server error', message: error.message });
 });
 
-// Handle React routing, return all requests to React app in production
-if (process.env.NODE_ENV === 'production') {
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
-  });
-}
-
+// Start server
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📱 Environment: ${process.env.NODE_ENV || 'development'}`);
-  if (process.env.NODE_ENV === 'production') {
-    console.log(`🌐 Frontend served from: ${path.join(__dirname, '../client/dist')}`);
-  }
 }); 
