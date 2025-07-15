@@ -1,105 +1,41 @@
-# Dependency directories
+# Node modules
 node_modules/
-client/node_modules/
-server/node_modules/
-
-# Build output
-client/build/
-server/dist/
-dist/
-build/
-<<<<<<< HEAD
-repo-files/
-=======
->>>>>>> 9f0dba5a0d1d03d2733b3d37479578228d3890ae
 
 # Logs
+logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-logs
 
-# Environment files
+# Dependency directories
+Resume-Analyzer-Tool/server/node_modules/
+Resume-Analyzer-Tool/client/node_modules/
+
+# Build output
+Resume-Analyzer-Tool/client/dist/
+Resume-Analyzer-Tool/client/build/
+Resume-Analyzer-Tool/server/dist/
+
+# Environment variables
 .env
-.env.*
-server/.env
+Resume-Analyzer-Tool/server/.env
+
+# OS files
+.DS_Store
+Thumbs.db
 
 # IDE files
 .vscode/
 .idea/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
+*.sublime-workspace
+*.sublime-project
+
+# Misc
 *.swp
 *.swo
 
-# OS generated files
-.DS_Store
-Thumbs.db
-
-# Misc
+# Coverage
 coverage/
-.nyc_output/
-.cache/
-.parcel-cache/
-.next/
-.nuxt/
-.vuepress/dist/
-.serverless/
-.fusebox/
-.dynamodb/
-.tern-port
-
-# Yarn Integrity file
-.yarn-integrity
-
-# Output of 'npm pack'
-*.tgz
-
-# Optional npm cache directory
-.npm
-
-# Optional REPL history
-.node_repl_history
-
-# parcel-bundler cache
-.cache
-.parcel-cache
-
-# next.js build output
-.next
-
-# nuxt.js build output
-.nuxt
-
-# vuepress build output
-.vuepress/dist
-
-# Serverless directories
-.serverless
-
-# FuseBox cache
-.fusebox/
-
-# DynamoDB Local files
-.dynamodb/
-
-# TernJS port file
-.tern-port
-
-# Lock files
-package-lock.json
-client/package-lock.json
-<<<<<<< HEAD
-server/package-lock.json 
-
-# Mac system files
-__MACOSX/
-
-# PDF resumes and sensitive docs
-client/public/team/*.pdf 
-=======
-server/package-lock.json 
->>>>>>> 9f0dba5a0d1d03d2733b3d37479578228d3890ae
+Resume-Analyzer-Tool/server/coverage/
+Resume-Analyzer-Tool/client/coverage/
