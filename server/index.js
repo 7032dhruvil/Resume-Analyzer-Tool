@@ -5,6 +5,9 @@ const mongoose = require('mongoose');
 const helmet = require('helmet');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
+const session = require('express-session');
+const passport = require('./auth/passport');
+const oauthRoutes = require('./routes/oauth');
 
 const authRoutes = require('./routes/auth');
 const contactRoutes = require('./routes/contact');
@@ -30,11 +33,21 @@ app.use(cors({
 app.use(express.json());
 app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }));
 
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'supersecret',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false } // Set to true if using HTTPS
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Health check
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 
 // API routes
 app.use('/api/auth', authRoutes);
+app.use('/api/auth', oauthRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/subscribe', subscribeRoutes);
 app.use('/api', analyzeRoutes);
