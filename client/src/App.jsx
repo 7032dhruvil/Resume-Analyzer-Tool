@@ -4,7 +4,6 @@ import Footer from './components/Footer';
 import About from './components/About';
 import { FaBrain, FaBolt, FaShieldAlt, FaUsers } from 'react-icons/fa';
 import { getTestimonials } from './data/teamData';
-import { motion } from 'framer-motion';
 
 const AnalysisResults = lazy(() => import('./components/AnalysisResults'));
 const AuthModal = lazy(() => import('./components/AuthModal'));
@@ -186,13 +185,7 @@ function App() {
 
             <div className="grid md:grid-cols-3 gap-8">
               {testimonials.map((testimonial, index) => (
-                <motion.div
-                  key={index}
-                  className="card card-hover"
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 * index, duration: 0.5 }}
-                >
+                <div key={index} className="card card-hover">
                   <div className="flex items-center mb-4">
                     <div className="relative w-12 h-12 mr-4">
                       <img
@@ -232,7 +225,7 @@ function App() {
                   <p className="text-gray-600 dark:text-gray-300 italic">
                     "{testimonial.content}"
                   </p>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>

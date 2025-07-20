@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaTimes, FaEnvelope, FaLock, FaUser, FaEye, FaEyeSlash, FaGithub, FaExclamationCircle } from 'react-icons/fa';
+import { login, register, API_BASE_URL } from '../services/api';
 
 const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
   const [isLogin, setIsLogin] = useState(true);
@@ -60,56 +61,30 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
     if (!validateForm()) return;
-
     setIsSubmitting(true);
-
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
-      onAuthSuccess({
-        user: {
-          id: '1',
-          name: formData.name || 'User',
-          email: formData.email,
-          avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face'
-        },
-        token: 'mock-jwt-token'
-      });
+    setErrors({});
+    try {
+      let result;
+      if (isLogin) {
+        result = await login(formData.email, formData.password);
+      } else {
+        result = await register(formData.name, formData.email, formData.password);
+        // Optionally, auto-login after signup
+        result = await login(formData.email, formData.password);
+      }
+      onAuthSuccess({ user: result.user, token: result.token });
       onClose();
-    }, 2000);
+    } catch (error) {
+      setErrors({ general: error.message });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleSocialLogin = async (provider) => {
-    setSocialLoading(provider);
-    
-    // Simulate OAuth flow
-    setTimeout(() => {
-      setSocialLoading(null);
-      
-      // Mock user data based on provider
-      const mockUsers = {
-        github: {
-          id: 'github-1',
-          name: 'GitHub User',
-          email: 'github.user@example.com',
-          avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face'
-        },
-        google: {
-          id: 'google-1',
-          name: 'Google User',
-          email: 'google.user@example.com',
-          avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face'
-        }
-      };
-      
-      onAuthSuccess({
-        user: mockUsers[provider],
-        token: `mock-${provider}-token`
-      });
-      onClose();
-    }, 3000);
+  const handleSocialLogin = (provider) => {
+    // Redirect to backend OAuth endpoint
+    window.location.href = `${API_BASE_URL}/auth/${provider}`;
   };
 
   const toggleMode = () => {
@@ -158,6 +133,12 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
             {/* Form */}
             <div className="p-6">
               <form onSubmit={handleSubmit} className="space-y-4">
+                {errors.general && (
+                  <div className="text-error-600 dark:text-error-400 text-sm mb-2 flex items-center">
+                    <FaExclamationCircle className="w-4 h-4 mr-1" />
+                    {errors.general}
+                  </div>
+                )}
                 {!isLogin && (
                   <div>
                     <label className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
