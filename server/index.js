@@ -42,6 +42,10 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.get('/', (req, res) => {
+  res.send('Resume Analyzer API is running.');
+});
+
 // Health check
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 
