@@ -25,13 +25,22 @@ passport.use(new GoogleStrategy({
   try {
     let user = await User.findOne({ provider: 'google', providerId: profile.id });
     if (!user) {
-      user = await User.create({
-        name: profile.displayName,
-        email: profile.emails[0].value,
-        provider: 'google',
-        providerId: profile.id,
-        password: 'oauth', // Not used
-      });
+      // Try to find user by email (regardless of provider)
+      user = await User.findOne({ email: profile.emails[0].value });
+      if (user) {
+        // Optionally, update provider info if needed
+        user.provider = 'google';
+        user.providerId = profile.id;
+        await user.save();
+      } else {
+        user = await User.create({
+          name: profile.displayName,
+          email: profile.emails[0].value,
+          provider: 'google',
+          providerId: profile.id,
+          password: 'oauth', // Not used
+        });
+      }
     }
     return done(null, user);
   } catch (err) {
