@@ -58,13 +58,23 @@ passport.use(new GitHubStrategy({
   try {
     let user = await User.findOne({ provider: 'github', providerId: profile.id });
     if (!user) {
-      user = await User.create({
-        name: profile.displayName || profile.username,
-        email: (profile.emails && profile.emails[0] && profile.emails[0].value) || `${profile.username}@github.com`,
-        provider: 'github',
-        providerId: profile.id,
-        password: 'oauth', // Not used
-      });
+      // Try to find user by email (regardless of provider)
+      const email = (profile.emails && profile.emails[0] && profile.emails[0].value) || `${profile.username}@github.com`;
+      user = await User.findOne({ email });
+      if (user) {
+        // Optionally, update provider info if needed
+        user.provider = 'github';
+        user.providerId = profile.id;
+        await user.save();
+      } else {
+        user = await User.create({
+          name: profile.displayName || profile.username,
+          email,
+          provider: 'github',
+          providerId: profile.id,
+          password: 'oauth', // Not used
+        });
+      }
     }
     return done(null, user);
   } catch (err) {
